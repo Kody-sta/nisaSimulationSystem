@@ -1,13 +1,13 @@
 package jp.java.voyage.simulateAssetFormationWithNISA;
 
-import jp.java.voyage.simulateAssetFormationWithNISA.HomeController.TaskItem;
+import jp.java.voyage.simulateAssetFormationWithNISA.HomeController.SimulationParams;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
     static ArrayList<Double> valuationData = new ArrayList<>();
-    public static ArrayList<Double> getValuationDataData(List<TaskItem> params) {
+    public static ArrayList<Double> getValuationDataData(List<SimulationParams> params) {
 
         valuationData.add(15072.0);
         valuationData.add(15072.0);

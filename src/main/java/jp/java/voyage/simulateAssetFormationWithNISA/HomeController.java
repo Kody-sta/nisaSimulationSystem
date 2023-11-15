@@ -15,8 +15,8 @@ import java.util.UUID;
 @Controller
 public class HomeController {
 
-    record TaskItem(String id, double expectedRateOfReturn, double volatility, int startAge, double monthlySavings, int initialValue) {}
-    private List<TaskItem> taskItems = new ArrayList<>();
+    record SimulationParams(String id, double expectedRateOfReturn, double volatility, int startAge, double monthlySavings, int initialValue) {}
+    private List<SimulationParams> params = new ArrayList<>();
     @RequestMapping(value="/hello")
     String hello(Model model) {
         model.addAttribute("time", LocalDateTime.now());
@@ -25,9 +25,9 @@ public class HomeController {
 
     @GetMapping("/list")
     String listItems(Model model) {
-        model.addAttribute("taskList", taskItems);
+        model.addAttribute("params", params);
 //        System.out.println(taskItems);
-//        model.addAttribute("valuationData", Simulation.getValuationDataData(taskItems));
+        model.addAttribute("valuationData", Simulation.getValuationDataData(params));
 //        return "simulation";
         return "home";
     }
@@ -39,8 +39,8 @@ public class HomeController {
                    @RequestParam("monthlySavings") double monthlySavings,
                    @RequestParam("initialValue") int initialValue) {
         String id = UUID.randomUUID().toString().substring(0, 8);
-        TaskItem item = new TaskItem(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue);
-        taskItems.add(item);
+        SimulationParams item = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue);
+        params.add(item);
 
         return "redirect:/list";
     }

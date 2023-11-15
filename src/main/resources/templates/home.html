@@ -51,13 +51,13 @@
                           </tr>
                       </thead>
                       <tbody>
-                          <tr th:each="task : ${taskList}">
-                              <td class="hidden" th:text="${task.id}"></td>
-                              <td th:text="${task.expectedRateOfReturn} + '%'"></td>
-                              <td th:text="${task.volatility} + '%'"></td>
-                              <td th:text="${task.startAge} + '歳'"></td>
-                              <td th:text="${task.monthlySavings} + '万'"></td>
-                              <td th:text="${task.initialValue} + '万'"></td>
+                          <tr th:each="params : ${params}">
+                              <td class="hidden" th:text="${params.id}"></td>
+                              <td th:text="${params.expectedRateOfReturn} + '%'"></td>
+                              <td th:text="${params.volatility} + '%'"></td>
+                              <td th:text="${params.startAge} + '歳'"></td>
+                              <td th:text="${params.monthlySavings} + '万'"></td>
+                              <td th:text="${params.initialValue} + '万'"></td>
                           </tr>
                       </tbody>
                   </table>
