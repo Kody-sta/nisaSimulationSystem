@@ -26,8 +26,8 @@ public class HomeController {
     @GetMapping("/list")
     String listItems(Model model) {
         model.addAttribute("params", params);
-//        System.out.println(taskItems);
-        model.addAttribute("valuationData", Simulation.getValuationDataData(params));
+        model.addAttribute("valuationData", Simulation.getValuationData(params));
+        model.addAttribute("monthCountList", Simulation.getMonthCountList(params));
 //        return "simulation";
         return "home";
     }
