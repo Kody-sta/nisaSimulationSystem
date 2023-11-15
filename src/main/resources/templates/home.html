@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>資産形成シミュレーション</title>
+        <link rel="stylesheet" th:href="@{/home2.css}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="head">
+                <h1>資産形成シミュレーション</h1>
+            </div>
+            <form action="/add">
+                <div class="formContainer">
+                    <table>
+                        <tr>
+                            <th><label for="">期待収益率(%)</label></th>
+                            <td><input name="expectedRateOfReturn" class="margin-right" type="text" /></td>
+                            <th><label for="">ボラティリティ(%)</label></th>
+                            <td><input name="volatility" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="">シミュレーション開始年齢</label></th>
+                            <td><input name="startAge" class="margin-right" type="text" /></td>
+                            <th><label for="">つみたて月額(万)</label></th>
+                            <td><input name="monthlySavings" type="text" /></td>
+                        </tr>
+                        <tr>
+                            <th><label for="">つみたて額初期値(万)</label></th>
+                            <td><input name="initialValue" type="text" /></td>
+                            <th></th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <input type="submit" class="button" value="開始" />
+                </div>
+            </form>
+
+            <div class="paramList">
+                 <table>
+                      <thead>
+                          <tr>
+                              <th class="hidden">ID</th>
+                              <th>期待収益率</th>
+                              <th>ボラティリティ</th>
+                              <th>シミュレーション開始年齢</th>
+                              <th>つみたて月額</th>
+                              <th>つみたて額初期値</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr th:each="task : ${taskList}">
+                              <td class="hidden" th:text="${task.id}"></td>
+                              <td th:text="${task.expectedRateOfReturn} + '%'"></td>
+                              <td th:text="${task.volatility} + '%'"></td>
+                              <td th:text="${task.startAge} + '歳'"></td>
+                              <td th:text="${task.monthlySavings} + '万'"></td>
+                              <td th:text="${task.initialValue} + '万'"></td>
+                          </tr>
+                      </tbody>
+                  </table>
+            </div>
+
+            <div  class="chartContainer">
+                <canvas id="myLineChart"></canvas>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+        <script>
+              var ctx = document.getElementById("myLineChart");
+              var myLineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: ['2023年', '2024年', '2025年', '2026年', '2027年', '2028年'],
+                  datasets: [
+                    {
+                      label: '上位5%',
+                      data: [28243, 37117, 40792, 46496, 51731, 54078],
+                      borderColor: "rgba(255,0,0,1)",
+                      backgroundColor: "rgba(0,0,0,0)"
+                    },
+                    {
+                      label: '予想平均',
+                      data: [22674, 22982, 22884, 22985, 22998, 22820],
+                      borderColor: "rgba(0,255,0,1)",
+                      backgroundColor: "rgba(0,0,0,0)"
+                    },
+                    {
+                      label: '下位5%',
+                      data: [17814, 13038, 10112, 9082, 7955, 6984],
+                      borderColor: "rgba(0,0,255,1)",
+                      backgroundColor: "rgba(0,0,0,0)"
+                    }
+                  ],
+                },
+                options: {
+                  title: {
+                    display: true,
+                    text: '基準価格推移'
+                  },
+                  scales: {
+                    yAxes: [{
+                      ticks: {
+                        suggestedMax: 60000,
+                        suggestedMin: 0,
+                        stepSize: 5000,
+                        callback: function(value, index, values){
+                          return  value +  '円'
+                        }
+                      }
+                    }]
+                  },
+                }
+              });
+        </script>
+    </body>
+</html>

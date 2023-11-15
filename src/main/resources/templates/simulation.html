@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta charset="UTF-8">
+      <title>資産形成シミュレーション</title>
+      <link rel="stylesheet" th:href="@{/simulation.css}">
+    </head>
+    <body>
+        <h1>資産形成シミュレーション</h1>
+
+        <div class="task_form">
+            <h2>入力</h2>
+            <form id="contact">
+                <div class="container">
+                    <div class="head">
+                      <h2>Say Hello</h2>
+                    </div>
+                    <input type="text" name="name" placeholder="Name" /><br />
+                    <input  type="email" name="email" placeholder="Email" /><br />
+                    <textarea type="text" name="message" placeholder="Message"></textarea><br />
+                    <div class="message">Message Sent</div>
+                    <button id="submit" type="submit">
+                        Send!
+                    </button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
