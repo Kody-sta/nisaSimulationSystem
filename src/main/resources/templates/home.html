@@ -68,31 +68,33 @@
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-        <script>
+        <script th:inline="javascript">
               var ctx = document.getElementById("myLineChart");
               var myLineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                  labels: ['2023年', '2024年', '2025年', '2026年', '2027年', '2028年'],
+<!--                  labels: ['2023年', '2024年', '2025年', '2026年', '2027年', '2028年'],-->
+                  labels: /*[[${monthCountList}]]*/"monthCountList",
                   datasets: [
-                    {
-                      label: '上位5%',
-                      data: [28243, 37117, 40792, 46496, 51731, 54078],
-                      borderColor: "rgba(255,0,0,1)",
-                      backgroundColor: "rgba(0,0,0,0)"
-                    },
+<!--                    {-->
+<!--                      label: '上位5%',-->
+<!--                      data: [28.243, 37.117, 40.792, 46.496, 51.731, 54.078],-->
+<!--                      borderColor: "rgba(255,0,0,1)",-->
+<!--                      backgroundColor: "rgba(0,0,0,0)"-->
+<!--                    },-->
                     {
                       label: '予想平均',
-                      data: [22674, 22982, 22884, 22985, 22998, 22820],
+                      data: /*[[${valuationData}]]*/"valuationData",
+<!--                      data: [22.674, 22.982, 22.884, 22.985, 22.998, 22.820],-->
                       borderColor: "rgba(0,255,0,1)",
                       backgroundColor: "rgba(0,0,0,0)"
-                    },
-                    {
-                      label: '下位5%',
-                      data: [17814, 13038, 10112, 9082, 7955, 6984],
-                      borderColor: "rgba(0,0,255,1)",
-                      backgroundColor: "rgba(0,0,0,0)"
                     }
+<!--                    {-->
+<!--                      label: '下位5%',-->
+<!--                      data: [17.814, 13.038, 10.112, 9.082, 7.955, 6.984],-->
+<!--                      borderColor: "rgba(0,0,255,1)",-->
+<!--                      backgroundColor: "rgba(0,0,0,0)"-->
+<!--                    }-->
                   ],
                 },
                 options: {
@@ -103,17 +105,57 @@
                   scales: {
                     yAxes: [{
                       ticks: {
-                        suggestedMax: 60000,
+                        suggestedMax: /*[[${suggestedMax}]]*/"suggestedMax",
                         suggestedMin: 0,
-                        stepSize: 5000,
+                        stepSize: /*[[${stepSize}]]*/"stepSize",
                         callback: function(value, index, values){
-                          return  value +  '円'
+                          return  value +  '万円'
                         }
                       }
                     }]
                   },
                 }
               });
+
+<!--          var ctx = document.getElementById("myLineChart");-->
+<!--          var myLineChart = new Chart(ctx, {-->
+<!--            type: 'line',-->
+<!--            data: {-->
+<!--              labels: ['8月1日', '8月2日', '8月3日', '8月4日', '8月5日', '8月6日', '8月7日'],-->
+<!--              datasets: [-->
+<!--                {-->
+<!--                  label: '最高気温(度）',-->
+<!--                  data: [35, 34, 37, 35, 34, 35, 34, 25],-->
+<!--                  borderColor: "rgba(255,0,0,1)",-->
+<!--                  backgroundColor: "rgba(0,0,0,0)"-->
+<!--                },-->
+<!--                {-->
+<!--                  label: '最低気温(度）',-->
+<!--                  data: [25, 27, 27, 25, 26, 27, 25, 21],-->
+<!--                  borderColor: "rgba(0,0,255,1)",-->
+<!--                  backgroundColor: "rgba(0,0,0,0)"-->
+<!--                }-->
+<!--              ],-->
+<!--            },-->
+<!--            options: {-->
+<!--              title: {-->
+<!--                display: true,-->
+<!--                text: '気温（8月1日~8月7日）'-->
+<!--              },-->
+<!--              scales: {-->
+<!--                yAxes: [{-->
+<!--                  ticks: {-->
+<!--                    suggestedMax: 40,-->
+<!--                    suggestedMin: 0,-->
+<!--                    stepSize: 10,-->
+<!--                    callback: function(value, index, values){-->
+<!--                      return  value +  '度'-->
+<!--                    }-->
+<!--                  }-->
+<!--                }]-->
+<!--              },-->
+<!--            }-->
+<!--          });-->
         </script>
     </body>
 </html>

@@ -26,9 +26,12 @@ public class HomeController {
     @GetMapping("/list")
     String listItems(Model model) {
         model.addAttribute("params", params);
-        model.addAttribute("valuationData", Simulation.getValuationData(params));
+        List<Double> valuationData = Simulation.getValuationData(params);
+        model.addAttribute("valuationData", valuationData);
         model.addAttribute("monthCountList", Simulation.getMonthCountList(params));
-//        return "simulation";
+        double suggestedMax = Simulation.getSuggestedMax(valuationData);
+        model.addAttribute("suggestedMax", suggestedMax);
+        model.addAttribute("stepSize", Simulation.getStepSize(suggestedMax));
         return "home";
     }
 
