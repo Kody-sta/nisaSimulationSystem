@@ -2,32 +2,66 @@ package jp.java.voyage.simulateAssetFormationWithNISA;
 
 import jp.java.voyage.simulateAssetFormationWithNISA.HomeController.SimulationParams;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Simulation {
-//    static ArrayList<Double> valuationData = new ArrayList<>();
-    static List<Double> scenario = new ArrayList<>();
+    static int simuNum = 10000;
+    static List<List<Double>> simuArr = new ArrayList<>();
+    static List<List<List<Double>>> portfolio = new ArrayList<>();
+    static List<List<Double>> VaR = new ArrayList<>();
+    static List<Double> top5Percent = new ArrayList<>();
+    static List<Double> expectedAverage = new ArrayList<>();
+    static List<Double> bottom5Percent = new ArrayList<>();
     public static List<Double> getValuationData(List<SimulationParams> params) {
         Random random = new Random();
 
+
         for (SimulationParams param : params) {
             int monthCount = (65 - param.startAge() + 1) * 12; // 運用月数
-            double expectedRateOfReturn =  param.expectedRateOfReturn() / 100; // 小数
-            double volatility =  param.volatility() / 100; //小数
+            double expectedRateOfReturn = param.expectedRateOfReturn() / 100; // 小数
+            double volatility = param.volatility() / 100; //小数
 
-//            for (int simuNum = 0; simuNum < 1000; simuNum++)  {
+            // N回シミュレーション
+            for (int n = 0; n < simuNum; n++) {
+                List<Double> scenario = new ArrayList<>();
                 scenario.add(param.initialValue() + param.monthlySavings());
                 for (int i = 1; i < monthCount; i++) {
-                    double delta = scenario.get(i-1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0);
-                    scenario.add(scenario.get(i-1) + delta + param.monthlySavings());
+                    double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0);
+                    scenario.add(scenario.get(i - 1) + delta + param.monthlySavings());
                 }
-//            }
-        }
-        System.out.println(scenario);
+                simuArr.add(scenario);
+            }
+            System.out.println(simuArr);
 
-        return scenario;
+            // VaRのシナリオ作成
+            for (int i = 0; i < monthCount; i++) {
+                List<Double> monthlyValue = new ArrayList<>();
+                for (List<Double> sce : simuArr) {
+                    monthlyValue.add(sce.get(i));
+                }
+
+                // 予想平均
+                double average = monthlyValue.stream()
+                        .mapToDouble(a -> a)
+                        .average()
+                        .orElse(0);
+                expectedAverage.add(average);
+
+                // 上位5％、下位5％
+                Collections.sort(monthlyValue);
+                top5Percent.add(monthlyValue.get(simuNum - (simuNum / 20)));
+                bottom5Percent.add(monthlyValue.get(simuNum / 20));
+            }
+            System.out.println(top5Percent);
+            System.out.println(expectedAverage);
+            System.out.println(bottom5Percent);
+
+            VaR.add(top5Percent);
+            VaR.add(expectedAverage);
+            VaR.add(bottom5Percent);
+        }
+
+        return bottom5Percent;
     }
 
     public static List<Integer> getMonthCountList(List<SimulationParams> params) {
@@ -45,11 +79,13 @@ public class Simulation {
 
     public static double getSuggestedMax(List<Double> valuationData) {
         double suggestedMax = 0;
-        for (double value : valuationData) {
-            if (value > suggestedMax) {
-                suggestedMax = value;
+//        for (List<Double> data : valuationData) {
+            for (double value : valuationData) {
+                if (value > suggestedMax) {
+                    suggestedMax = value;
+                }
             }
-        }
+//        }
         System.out.println(suggestedMax);
 
         return suggestedMax;
