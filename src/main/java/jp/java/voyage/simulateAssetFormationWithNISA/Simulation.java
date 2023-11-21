@@ -12,6 +12,7 @@ public class Simulation {
     static List<Double> top5Percent = new ArrayList<>();
     static List<Double> expectedAverage = new ArrayList<>();
     static List<Double> bottom5Percent = new ArrayList<>();
+    static List<Double> noOperation = new ArrayList<>();
     public static List<List<Double>> getValuationData(List<SimulationParams> params) {
         Random random = new Random();
 
@@ -25,7 +26,7 @@ public class Simulation {
                 List<Double> scenario = new ArrayList<>();
                 scenario.add(param.initialValue() + param.monthlySavings());
                 for (int i = 1; i < monthCount; i++) {
-                    double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0);
+                    double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0); // 増分
                     scenario.add(scenario.get(i - 1) + delta + param.monthlySavings());
                 }
                 simuArr.add(scenario);
@@ -50,11 +51,19 @@ public class Simulation {
                 Collections.sort(monthlyValue);
                 top5Percent.add(monthlyValue.get(simuNum - (simuNum / 20)));
                 bottom5Percent.add(monthlyValue.get(simuNum / 20));
+
+                // 運用なし
+                if (i == 0) {
+                    noOperation.add(param.monthlySavings());
+                } else {
+                    noOperation.add(noOperation.get(i - 1) + param.monthlySavings());
+                }
             }
 
             VaR.add(top5Percent);
             VaR.add(expectedAverage);
             VaR.add(bottom5Percent);
+            VaR.add(noOperation);
 
             System.out.println(VaR);
         }
@@ -62,19 +71,7 @@ public class Simulation {
         return VaR;
     }
 
-    public static List<Double> getTop5Percent(List<List<Double>> valuationData) {
-        return valuationData.get(0);
-    }
-
-    public static List<Double> getExpectedAverage(List<List<Double>> valuationData) {
-        return valuationData.get(1);
-    }
-
-    public static List<Double> getBottom5Percent(List<List<Double>> valuationData) {
-        return valuationData.get(2);
-    }
-
-        public static List<String> getAgeCountList(List<SimulationParams> params) {
+    public static List<String> getAgeCountList(List<SimulationParams> params) {
         List<String> monthCountList = new ArrayList<>();
         for (SimulationParams param : params) {
             int monthCount = (65 - param.startAge()) * 12; // 運用月数

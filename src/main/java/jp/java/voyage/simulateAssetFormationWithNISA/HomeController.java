@@ -40,6 +40,9 @@ public class HomeController {
                 case 2:
                     model.addAttribute("bottom5Percent", data);
                     break;
+                case 3:
+                    model.addAttribute("noOperation", data);
+                    break;
             }
             i++;
         }
