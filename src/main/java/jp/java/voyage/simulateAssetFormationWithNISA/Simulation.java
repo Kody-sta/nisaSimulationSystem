@@ -16,7 +16,7 @@ public class Simulation {
         Random random = new Random();
 
         for (SimulationParams param : params) {
-            int monthCount = (65 - param.startAge() + 1) * 12; // 運用月数
+            int monthCount = (65 - param.startAge()) * 12; // 運用月数
             double expectedRateOfReturn = param.expectedRateOfReturn() / 100; // 小数
             double volatility = param.volatility() / 100; //小数
 
@@ -74,12 +74,16 @@ public class Simulation {
         return valuationData.get(2);
     }
 
-        public static List<Integer> getMonthCountList(List<SimulationParams> params) {
-        List<Integer> monthCountList = new ArrayList<>();
+        public static List<String> getAgeCountList(List<SimulationParams> params) {
+        List<String> monthCountList = new ArrayList<>();
         for (SimulationParams param : params) {
-            int monthCount = (65 - param.startAge() + 1) * 12; // 運用月数
-            for (int i = 0; i < monthCount; i++) {
-                monthCountList.add(i+1);
+            int monthCount = (65 - param.startAge()) * 12; // 運用月数
+            int age = param.startAge();
+            for (int i = 1; i < monthCount+1; i++) {
+                if (i % 12 == 0) {
+                    age++;
+                }
+                monthCountList.add(age + "歳");
             }
         }
         System.out.println(monthCountList);

@@ -43,7 +43,7 @@ public class HomeController {
             }
             i++;
         }
-        model.addAttribute("monthCountList", Simulation.getMonthCountList(params));
+        model.addAttribute("monthCountList", Simulation.getAgeCountList(params));
         double suggestedMax = Simulation.getSuggestedMax(valuationData);
         model.addAttribute("suggestedMax", suggestedMax);
         model.addAttribute("stepSize", Simulation.getStepSize(suggestedMax));
