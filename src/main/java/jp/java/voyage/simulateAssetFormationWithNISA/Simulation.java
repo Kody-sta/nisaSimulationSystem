@@ -12,9 +12,8 @@ public class Simulation {
     static List<Double> top5Percent = new ArrayList<>();
     static List<Double> expectedAverage = new ArrayList<>();
     static List<Double> bottom5Percent = new ArrayList<>();
-    public static List<Double> getValuationData(List<SimulationParams> params) {
+    public static List<List<Double>> getValuationData(List<SimulationParams> params) {
         Random random = new Random();
-
 
         for (SimulationParams param : params) {
             int monthCount = (65 - param.startAge() + 1) * 12; // 運用月数
@@ -52,19 +51,30 @@ public class Simulation {
                 top5Percent.add(monthlyValue.get(simuNum - (simuNum / 20)));
                 bottom5Percent.add(monthlyValue.get(simuNum / 20));
             }
-            System.out.println(top5Percent);
-            System.out.println(expectedAverage);
-            System.out.println(bottom5Percent);
 
             VaR.add(top5Percent);
             VaR.add(expectedAverage);
             VaR.add(bottom5Percent);
+
+            System.out.println(VaR);
         }
 
-        return bottom5Percent;
+        return VaR;
     }
 
-    public static List<Integer> getMonthCountList(List<SimulationParams> params) {
+    public static List<Double> getTop5Percent(List<List<Double>> valuationData) {
+        return valuationData.get(0);
+    }
+
+    public static List<Double> getExpectedAverage(List<List<Double>> valuationData) {
+        return valuationData.get(1);
+    }
+
+    public static List<Double> getBottom5Percent(List<List<Double>> valuationData) {
+        return valuationData.get(2);
+    }
+
+        public static List<Integer> getMonthCountList(List<SimulationParams> params) {
         List<Integer> monthCountList = new ArrayList<>();
         for (SimulationParams param : params) {
             int monthCount = (65 - param.startAge() + 1) * 12; // 運用月数
@@ -77,15 +87,15 @@ public class Simulation {
         return monthCountList;
     }
 
-    public static double getSuggestedMax(List<Double> valuationData) {
+    public static double getSuggestedMax(List<List<Double>> valuationData) {
         double suggestedMax = 0;
-//        for (List<Double> data : valuationData) {
-            for (double value : valuationData) {
+        for (List<Double> data : valuationData) {
+            for (double value : data) {
                 if (value > suggestedMax) {
                     suggestedMax = value;
                 }
             }
-//        }
+        }
         System.out.println(suggestedMax);
 
         return suggestedMax;

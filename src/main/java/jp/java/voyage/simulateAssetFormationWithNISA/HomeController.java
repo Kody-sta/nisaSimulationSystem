@@ -26,13 +26,23 @@ public class HomeController {
     @GetMapping("/list")
     String listItems(Model model) {
         model.addAttribute("params", params);
-//        List<List<Double>> valuationData = Simulation.getValuationData(params);
-        List<Double> valuationData = Simulation.getValuationData(params);
-        model.addAttribute("valuationData", valuationData);
-//        System.out.println(valuationData.get(0));
-//        model.addAttribute("top5Percent", valuationData.get(0));
-//        model.addAttribute("expectedAverage", valuationData.get(1));
-//        model.addAttribute("bottom5Percent", valuationData.get(2));
+        List<List<Double>> valuationData = Simulation.getValuationData(params);
+        int i = 0;
+        for (List<Double> data : valuationData) {
+            System.out.println(data);
+            switch(i) {
+                case 0:
+                    model.addAttribute("top5Percent", data);
+                    break;
+                case 1:
+                    model.addAttribute("expectedAverage", data);
+                    break;
+                case 2:
+                    model.addAttribute("bottom5Percent", data);
+                    break;
+            }
+            i++;
+        }
         model.addAttribute("monthCountList", Simulation.getMonthCountList(params));
         double suggestedMax = Simulation.getSuggestedMax(valuationData);
         model.addAttribute("suggestedMax", suggestedMax);

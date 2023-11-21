@@ -75,31 +75,30 @@
                 data: {
                   labels: /*[[${monthCountList}]]*/"monthCountList",
                   datasets: [
-<!--                    {-->
-<!--                      label: '上位5%',-->
-<!--                      data: [28.243, 37.117, 40.792, 46.496, 51.731, 54.078],-->
-<!--                      borderColor: "rgba(255,0,0,1)",-->
-<!--                      backgroundColor: "rgba(0,0,0,0)"-->
-<!--                    },-->
+                    {
+                      label: '上位5%',
+                      data: /*[[${top5Percent}]]*/"top5Percent",
+                      borderColor: "rgba(255,0,0,1)",
+                      backgroundColor: "rgba(0,0,0,0)"
+                    },
                     {
                       label: '予想平均',
-<!--                      data: /*[[${expectedAverage}]]*/"expectedAverage",-->
-                      data: /*[[${valuationData}]]*/"valuationData",
+                      data: /*[[${expectedAverage}]]*/"expectedAverage",
                       borderColor: "rgba(0,255,0,1)",
                       backgroundColor: "rgba(0,0,0,0)"
+                    },
+                    {
+                      label: '下位5%',
+                      data: /*[[${bottom5Percent}]]*/"bottom5Percent",
+                      borderColor: "rgba(0,0,255,1)",
+                      backgroundColor: "rgba(0,0,0,0)"
                     }
-<!--                    {-->
-<!--                      label: '下位5%',-->
-<!--                      data: [17.814, 13.038, 10.112, 9.082, 7.955, 6.984],-->
-<!--                      borderColor: "rgba(0,0,255,1)",-->
-<!--                      backgroundColor: "rgba(0,0,0,0)"-->
-<!--                    }-->
                   ],
                 },
                 options: {
                   title: {
                     display: true,
-                    text: '基準価格推移'
+                    text: '資産額推移'
                   },
                   scales: {
                     yAxes: [{
