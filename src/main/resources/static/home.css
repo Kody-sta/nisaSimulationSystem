@@ -48,7 +48,7 @@ h1 {
     margin-bottom:10px;
 }
 .formContainer input:first-of-type {
-    margin-top:35px;
+    margin-top:10px;
 }
 .formContainer label {
     font-size: 1.1em;
@@ -78,7 +78,6 @@ h1 {
 }
 .button {
     font-size: 1.2em;
-    margin:15px 350px;
     background-color:#2ABCA7;
     padding: 12px 45px;
     -ms-border-radius: 5px;
@@ -87,7 +86,8 @@ h1 {
     border: 1px solid #2ABCA7;
     -webkit-transition: .5s;
     transition: .5s;
-    display: inline-block;
+    display: block;
+    margin: 15px auto;
     cursor: pointer;
     width:30%;
     color:#fff;
@@ -107,7 +107,11 @@ h1 {
     -moz-border-radius:6px;
     border-radius:6px;
     padding: 10px;
-    border:2px solid #888;
+    border: solid 2px #888;
+}
+.paramList th {
+    border-collapse: collapse;
+    border: solid 2px #888;
 }
 
 /* グラフ表示 */
