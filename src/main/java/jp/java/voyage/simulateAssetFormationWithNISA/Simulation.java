@@ -18,10 +18,16 @@ public class Simulation {
         // N回シミュレーション
         for (int n = 0; n < simuNum; n++) {
             List<Double> scenario = new ArrayList<>();
-            scenario.add(params.initialValue() + params.monthlySavings());
+            double totalReserveAmount = params.monthlySavings();
+            scenario.add(params.initialValue() + params.monthlySavings()); // 積立1か月目
             for (int i = 1; i < monthCount; i++) {
                 double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0); // 増分
-                scenario.add(scenario.get(i - 1) + delta + params.monthlySavings());
+                totalReserveAmount += params.monthlySavings();
+                if (totalReserveAmount <= 1800) { // 積立上限判定
+                    scenario.add(scenario.get(i - 1) + delta + params.monthlySavings());
+                } else {
+                    scenario.add(scenario.get(i - 1) + delta);
+                }
             }
             simuArr.add(scenario);
         }
@@ -33,6 +39,7 @@ public class Simulation {
         List<Double> expectedAverage = new ArrayList<>();
         List<Double> bottom5Percent = new ArrayList<>();
         List<Double> noOperation = new ArrayList<>();
+        double totalReserveAmount = params.monthlySavings();
         for (int i = 0; i < monthCount; i++) {
             List<Double> monthlyValue = new ArrayList<>();
             for (List<Double> sce : simuArr) {
@@ -55,7 +62,12 @@ public class Simulation {
             if (i == 0) {
                 noOperation.add(params.monthlySavings());
             } else {
-                noOperation.add(noOperation.get(i - 1) + params.monthlySavings());
+                totalReserveAmount += params.monthlySavings();
+                if (totalReserveAmount <= 1800) {
+                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings());
+                } else {
+                    noOperation.add(noOperation.get(i - 1));
+                }
             }
         }
 
