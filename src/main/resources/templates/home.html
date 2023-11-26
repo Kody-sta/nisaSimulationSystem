@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
-        <title>資産形成シミュレーション</title>
-        <link rel="stylesheet" th:href="@{/home.css}">
+        <title>新NISA資産形成シミュレーション</title>
+        <link rel="stylesheet" th:href="@{/home2.css}">
     </head>
     <body>
         <div class="container">
             <div class="head">
-                <h1>資産形成シミュレーション</h1>
+                <h1>新NISA資産形成シミュレーション</h1>
             </div>
             <div class="contents">
                 <form action="/add">
@@ -16,19 +16,34 @@
                         <table>
                             <tr>
                                 <th><label>期待収益率(%)</label></th>
-                                <td><input name="expectedRateOfReturn" class="margin-right" type="text" /></td>
+                                <td>
+                                    <input name="expectedRateOfReturn" class="margin-right" type="text" />
+                                    <div th:text="${expectedRateOfReturnError}" class="validColor"></div>
+                                </td>
                                 <th><label>ボラティリティ(%)</label></th>
-                                <td><input name="volatility" type="text" /></td>
+                                <td>
+                                    <input name="volatility" type="text" />
+                                    <div th:text="${volatilityError}" class="validColor"></div>
+                                </td>
                             </tr>
                             <tr>
                                 <th><label>シミュレーション開始年齢</label></th>
-                                <td><input name="startAge" class="margin-right" type="text" /></td>
+                                <td>
+                                    <input name="startAge" class="margin-right" type="text" />
+                                    <div th:text="${startAgeError}" class="validColor"></div>
+                                </td>
                                 <th><label>つみたて月額(万)</label></th>
-                                <td><input name="monthlySavings" type="text" /></td>
+                                <td>
+                                    <input name="monthlySavings" type="text" />
+                                    <div th:text="${monthlySavingsError}" class="validColor"></div>
+                                </td>
                             </tr>
                             <tr>
                                 <th><label>つみたて額初期値(万)</label></th>
-                                <td><input name="initialValue" type="text" /></td>
+                                <td>
+                                    <input name="initialValue" type="text" />
+                                    <div th:text="${initialValueError}" class="validColor"></div>
+                                </td>
                                 <th></th>
                                 <td></td>
                             </tr>

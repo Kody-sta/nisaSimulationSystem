@@ -7,20 +7,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class HomeController {
 
-    record SimulationParams(String id, double expectedRateOfReturn, double volatility, int startAge, double monthlySavings, int initialValue) {}
+    record SimulationParams(String id, double expectedRateOfReturn, double volatility, int startAge, double monthlySavings, double initialValue) {}
     private String id;
     private double expectedRateOfReturn;
     private double volatility;
     private int startAge;
     private double monthlySavings;
-    private int initialValue;
+    private double initialValue;
     private SimulationParams params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue);
+    private Validation validMessage = new Validation();
     @RequestMapping(value="/hello")
     String hello(Model model) {
         model.addAttribute("time", LocalDateTime.now());
@@ -48,18 +48,36 @@ public class HomeController {
             model.addAttribute("suggestedMax", suggestedMax);
             model.addAttribute("stepSize", Simulation.getStepSize(suggestedMax));
         }
+        model.addAttribute("expectedRateOfReturnError", validMessage.expectedRateOfReturnError);
+        model.addAttribute("volatilityError", validMessage.volatilityError);
+        model.addAttribute("startAgeError", validMessage.startAgeError);
+        model.addAttribute("monthlySavingsError", validMessage.monthlySavingsError);
+        model.addAttribute("initialValueError", validMessage.initialValueError);
+
         return "home";
     }
 
     @GetMapping("/add")
-    String addItem(@RequestParam("expectedRateOfReturn") double expectedRateOfReturn,
-                   @RequestParam("volatility") double volatility,
-                   @RequestParam("startAge") int startAge,
-                   @RequestParam("monthlySavings") double monthlySavings,
-                   @RequestParam("initialValue") int initialValue) {
+    String addItem(@RequestParam("expectedRateOfReturn") String requestExpectedRateOfReturn,
+                   @RequestParam("volatility") String requestVolatility,
+                   @RequestParam("startAge") String requestStartAge,
+                   @RequestParam("monthlySavings") String requestMonthlySavings,
+                   @RequestParam("initialValue") String requestInitialValue) {
         String id = UUID.randomUUID().toString().substring(0, 8);
-        params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue);
+        try {
+            double expectedRateOfReturn = Double.parseDouble(requestExpectedRateOfReturn);
+            double volatility = Double.parseDouble(requestVolatility);
+            int startAge = Integer.parseInt(requestStartAge);
+            double monthlySavings = Double.parseDouble(requestMonthlySavings);
+            double initialValue = Double.parseDouble(requestInitialValue);
 
-        return "redirect:/list";
+            params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue);
+            validMessage = new Validation(); // バリデーションの初期化
+            return "redirect:/list";
+        } catch (Exception e) {
+            validMessage = new Validation();
+            validMessage.typeValid(requestExpectedRateOfReturn, requestVolatility, requestStartAge, requestMonthlySavings, requestInitialValue);
+            return "redirect:/list";
+        }
     }
 }

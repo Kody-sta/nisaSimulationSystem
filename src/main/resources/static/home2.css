@@ -93,7 +93,10 @@ h1 {
     color:#fff;
 }
 .button:hover {
-  background:#19a08c;
+    background:#19a08c;
+}
+.validColor {
+    color: #FF0000;
 }
 
 /* 一覧表示 */
