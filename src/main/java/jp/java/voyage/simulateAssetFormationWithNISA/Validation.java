@@ -13,12 +13,11 @@ public class Validation {
     }
 
     public void typeValid(String expectedRateOfReturn, String volatility, String startAge, String monthlySavings, String initialValue) {
-//        Pattern pattern = Pattern.compile("^[+-]?[0-9]+\.[0-9]+([eE][+-]?[0-9]+)?$");
-//        Pattern pattern1 = Pattern.compile("[0-9]|[1-5][0-9]|6[0-4]");
-        Pattern pattern1 = Pattern.compile("^[+-]?[0-9]+$"); // 整数
+        Pattern pattern1 = Pattern.compile("^[+-]?[0-9]+$|^[+-]?[0-9]+\\.[0-9]+$"); // 整数or小数
+        Pattern pattern2 = Pattern.compile("^[+-]?[0-9]+$"); // 整数
         Matcher matcher1 = pattern1.matcher(expectedRateOfReturn);
         Matcher matcher2 = pattern1.matcher(volatility);
-        Matcher matcher3 = pattern1.matcher(startAge);
+        Matcher matcher3 = pattern2.matcher(startAge);
         Matcher matcher4 = pattern1.matcher(monthlySavings);
         Matcher matcher5 = pattern1.matcher(initialValue);
 
@@ -37,5 +36,13 @@ public class Validation {
         if (!(matcher5.matches())) {
             this.initialValueError = "半角数字を入力してください";
         }
+    }
+
+    public void ageValid(int startAge) {
+//        Pattern pattern = Pattern.compile("[0-9]|[1-5][0-9]|6[0-4]"); // 0～64
+//        Matcher matcher1 = pattern.matcher(startAge);
+//        if (!(matcher1.matches())) {
+//            this.startAgeError = "0～64を入力してください";
+//        }
     }
 }
