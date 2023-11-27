@@ -2,6 +2,7 @@ package jp.java.voyage.simulateAssetFormationWithNISA;
 
 import jp.java.voyage.simulateAssetFormationWithNISA.HomeController.SimulationParams;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class Simulation {
@@ -51,12 +52,19 @@ public class Simulation {
                     .mapToDouble(a -> a)
                     .average()
                     .orElse(0);
+            BigDecimal bdAverage = getRoundingOffNum(average);
+            average = Double.parseDouble(String.valueOf(bdAverage));
             expectedAverage.add(average);
 
             // 上位5％、下位5％
             Collections.sort(monthlyValue);
-            top5Percent.add(monthlyValue.get(simuNum - (simuNum / 20)));
-            bottom5Percent.add(monthlyValue.get(simuNum / 20));
+            BigDecimal bdTop = getRoundingOffNum(monthlyValue.get(simuNum - (simuNum / 20)));
+            double top5 = Double.parseDouble(String.valueOf(bdTop));
+            top5Percent.add(top5);
+
+            BigDecimal bdBottom = getRoundingOffNum(monthlyValue.get(simuNum / 20));
+            double bottom5 = Double.parseDouble(String.valueOf(bdBottom));
+            bottom5Percent.add(bottom5);
 
             // 運用なし
             if (i == 0) {
@@ -138,5 +146,11 @@ public class Simulation {
         System.out.println(stepSize);
 
         return stepSize;
+    }
+
+    private static BigDecimal getRoundingOffNum(double num) {
+        BigDecimal bdNum = new BigDecimal(num);
+        BigDecimal result = bdNum.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return result;
     }
 }
