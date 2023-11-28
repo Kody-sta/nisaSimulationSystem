@@ -32,7 +32,7 @@ public class Simulation {
             }
             simuArr.add(scenario);
         }
-        System.out.println(simuArr);
+//        System.out.println(simuArr);
 
         // VaRのシナリオ作成
         List<List<Double>> VaR = new ArrayList<>();
@@ -84,7 +84,7 @@ public class Simulation {
         VaR.add(bottom5Percent);
         VaR.add(noOperation);
 
-        System.out.println(VaR);
+//        System.out.println(VaR);
 
         return VaR;
     }
@@ -99,7 +99,7 @@ public class Simulation {
             }
             monthCountList.add(age + "歳");
         }
-        System.out.println(monthCountList);
+//        System.out.println(monthCountList);
 
         return monthCountList;
     }
@@ -113,7 +113,7 @@ public class Simulation {
                 }
             }
         }
-        System.out.println(suggestedMax);
+//        System.out.println(suggestedMax);
 
         return suggestedMax;
     }
@@ -143,7 +143,7 @@ public class Simulation {
         } else {
             stepSize = 1000000;
         }
-        System.out.println(stepSize);
+//        System.out.println(stepSize);
 
         return stepSize;
     }

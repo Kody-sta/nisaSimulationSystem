@@ -9,10 +9,11 @@ public class Validation {
     String startAgeError;
     String monthlySavingsError;
     String initialValueError;
+    lifeEventValidation lifeEventValidMessage;
     public Validation() {
     }
 
-    public void typeValid(String expectedRateOfReturn, String volatility, String startAge, String monthlySavings, String initialValue) {
+    public void typeValid(String expectedRateOfReturn, String volatility, String startAge, String monthlySavings, String initialValue, lifeEventStr lifeEventStr, lifeEventValidation lev) {
         Pattern pattern1 = Pattern.compile("^[+-]?[0-9]+$|^[+-]?[0-9]+\\.[0-9]+$"); // 整数or小数
         Pattern pattern2 = Pattern.compile("^[+-]?[0-9]+$"); // 整数
         Matcher matcher1 = pattern1.matcher(expectedRateOfReturn);
@@ -20,21 +21,37 @@ public class Validation {
         Matcher matcher3 = pattern2.matcher(startAge);
         Matcher matcher4 = pattern1.matcher(monthlySavings);
         Matcher matcher5 = pattern1.matcher(initialValue);
+        Matcher matcher6 = pattern2.matcher(lifeEventStr.lifeEventAge1);
+        Matcher matcher7 = pattern1.matcher(lifeEventStr.requiredFunds1);
+        Matcher matcher8 = pattern2.matcher(lifeEventStr.lifeEventAge2);
+        Matcher matcher9 = pattern1.matcher(lifeEventStr.requiredFunds2);
 
         if (!(matcher1.matches())) {
-            this.expectedRateOfReturnError = "半角数字を入力してください";
+            this.expectedRateOfReturnError = "半角数字を入力";
         }
         if (!(matcher2.matches())) {
-            this.volatilityError = "半角数字を入力してください";
+            this.volatilityError = "半角数字を入力";
         }
         if (!(matcher3.matches())) {
-            this.startAgeError = "0～64を入力してください";
+            this.startAgeError = "0～64を入力";
         }
         if (!(matcher4.matches())) {
-            this.monthlySavingsError = "半角数字を入力してください";
+            this.monthlySavingsError = "半角数字を入力";
         }
         if (!(matcher5.matches())) {
-            this.initialValueError = "半角数字を入力してください";
+            this.initialValueError = "半角数字を入力";
+        }
+        if (!(matcher6.matches())) {
+            lev.setLifeEventAge1Error("0～64を入力");
+        }
+        if (!(matcher7.matches())) {
+            lev.setRequiredFunds1Error("半角数字を入力");
+        }
+        if (!(matcher8.matches())) {
+            lev.setLifeEventAge2Error("0～64を入力");
+        }
+        if (!(matcher9.matches())) {
+            lev.setRequiredFunds2Error("半角数字を入力");
         }
     }
 
