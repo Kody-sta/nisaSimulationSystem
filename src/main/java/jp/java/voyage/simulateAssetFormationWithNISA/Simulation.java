@@ -16,6 +16,8 @@ public class Simulation {
         int monthCount = (65 - params.startAge()) * 12; // 運用月数
         double expectedRateOfReturn = params.expectedRateOfReturn() / 100; // 小数
         double volatility = params.volatility() / 100; //小数
+        int monthOfLifeEvent1 = (params.lifeEventParams().lifeEventAge1() - params.startAge()) * 12; // イベント発生月
+        int monthOfLifeEvent2 = (params.lifeEventParams().lifeEventAge2() - params.startAge()) * 12;
 
         // N回シミュレーション
         for (int n = 0; n < simuNum; n++) {
@@ -25,10 +27,24 @@ public class Simulation {
             for (int i = 1; i < monthCount; i++) {
                 double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0); // 増分
                 totalReserveAmount += params.monthlySavings();
-                if (totalReserveAmount <= 1800) { // 積立上限判定
-                    scenario.add(scenario.get(i - 1) + delta + params.monthlySavings());
+                if (i == monthOfLifeEvent1) { // イベント①発生
+                    if (totalReserveAmount <= 1800) { // 積立上限判定
+                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds1());
+                    } else {
+                        scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds1());
+                    }
+                } else if (i == monthOfLifeEvent2) {
+                    if (totalReserveAmount <= 1800) {
+                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
+                    } else {
+                        scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds2());
+                    }
                 } else {
-                    scenario.add(scenario.get(i - 1) + delta);
+                    if (totalReserveAmount <= 1800) {
+                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings());
+                    } else {
+                        scenario.add(scenario.get(i - 1) + delta);
+                    }
                 }
             }
             simuArr.add(scenario);
@@ -72,10 +88,24 @@ public class Simulation {
                 noOperation.add(params.monthlySavings());
             } else {
                 totalReserveAmount += params.monthlySavings();
-                if (totalReserveAmount <= 1800) {
-                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings());
+                if (i == monthOfLifeEvent1) { // イベント①発生
+                    if (totalReserveAmount <= 1800) {
+                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds1());
+                    } else {
+                        noOperation.add(noOperation.get(i - 1));
+                    }
+                } else if (i == monthOfLifeEvent2) {
+                    if (totalReserveAmount <= 1800) {
+                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
+                    } else {
+                        noOperation.add(noOperation.get(i - 1));
+                    }
                 } else {
-                    noOperation.add(noOperation.get(i - 1));
+                    if (totalReserveAmount <= 1800) {
+                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings());
+                    } else {
+                        noOperation.add(noOperation.get(i - 1));
+                    }
                 }
             }
         }

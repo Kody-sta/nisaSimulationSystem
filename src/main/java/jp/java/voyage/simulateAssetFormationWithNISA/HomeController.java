@@ -95,7 +95,7 @@ public class HomeController {
             }
 
             lifeEventParams = new lifeEventParams(lifeEvent1, lifeEventAge1, requiredFunds1, lifeEvent2, lifeEventAge2, requiredFunds2);
-            System.out.println(lifeEventParams);
+//            System.out.println(lifeEventParams);
             params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams);
             lifeEventValidMessage = new lifeEventValidation(); // バリデーションの初期化
             validMessage = new Validation(); // バリデーションの初期化
