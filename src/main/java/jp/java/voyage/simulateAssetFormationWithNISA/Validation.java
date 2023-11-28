@@ -9,7 +9,6 @@ public class Validation {
     String startAgeError;
     String monthlySavingsError;
     String initialValueError;
-    lifeEventValidation lifeEventValidMessage;
     public Validation() {
     }
 

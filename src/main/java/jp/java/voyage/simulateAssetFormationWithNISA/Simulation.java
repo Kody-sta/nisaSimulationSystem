@@ -3,6 +3,7 @@ package jp.java.voyage.simulateAssetFormationWithNISA;
 import jp.java.voyage.simulateAssetFormationWithNISA.HomeController.SimulationParams;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class Simulation {
@@ -150,7 +151,6 @@ public class Simulation {
 
     private static BigDecimal getRoundingOffNum(double num) {
         BigDecimal bdNum = new BigDecimal(num);
-        BigDecimal result = bdNum.setScale(2, BigDecimal.ROUND_HALF_UP);
-        return result;
+        return bdNum.setScale(2, RoundingMode.HALF_UP);
     }
 }
