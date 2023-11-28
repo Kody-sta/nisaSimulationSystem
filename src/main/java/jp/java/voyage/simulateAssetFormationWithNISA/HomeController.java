@@ -32,7 +32,7 @@ public class HomeController {
     @GetMapping("/list")
     String listItems(Model model) {
         if (params.id() != null) {
-            System.out.println(params);
+//            System.out.println(params);
             model.addAttribute("params", params);
             List<List<Double>> valuationData = Simulation.getValuationData(params);
             int i = 0;
@@ -105,8 +105,6 @@ public class HomeController {
             lifeEventValidMessage = new lifeEventValidation();
             validMessage = new Validation();
             validMessage.typeValid(requestExpectedRateOfReturn, requestVolatility, requestStartAge, requestMonthlySavings, requestInitialValue, lifeEventStr, lifeEventValidMessage);
-            System.out.println(validMessage);
-            System.out.println(lifeEventValidMessage);
             return "redirect:/list";
         }
     }
