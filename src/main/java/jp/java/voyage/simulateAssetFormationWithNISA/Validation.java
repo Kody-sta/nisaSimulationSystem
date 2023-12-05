@@ -40,16 +40,16 @@ public class Validation {
         if (!(matcher5.matches())) {
             this.initialValueError = "半角数字を入力";
         }
-        if (!(matcher6.matches())) {
+        if (!(matcher6.matches()) && !(lifeEventStr.lifeEventAge1.equals(""))) {
             lev.setLifeEventAge1Error("0～64を入力");
         }
-        if (!(matcher7.matches())) {
+        if (!(matcher7.matches()) && !(lifeEventStr.requiredFunds1.equals(""))) {
             lev.setRequiredFunds1Error("半角数字を入力");
         }
-        if (!(matcher8.matches())) {
+        if (!(matcher8.matches())&& !(lifeEventStr.lifeEventAge2.equals(""))) {
             lev.setLifeEventAge2Error("0～64を入力");
         }
-        if (!(matcher9.matches())) {
+        if (!(matcher9.matches()) && !(lifeEventStr.requiredFunds2.equals(""))) {
             lev.setRequiredFunds2Error("半角数字を入力");
         }
     }

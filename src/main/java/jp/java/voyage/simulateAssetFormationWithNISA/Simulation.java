@@ -121,18 +121,18 @@ public class Simulation {
     }
 
     public static List<String> getAgeCountList(SimulationParams params) {
-        List<String> monthCountList = new ArrayList<>();
+        List<String> ageCountList = new ArrayList<>();
         int monthCount = (65 - params.startAge()) * 12; // 運用月数
         int age = params.startAge();
         for (int i = 1; i < monthCount+1; i++) {
             if (i % 12 == 0) {
                 age++;
             }
-            monthCountList.add(age + "歳");
+            ageCountList.add(age + "歳");
         }
 //        System.out.println(monthCountList);
 
-        return monthCountList;
+        return ageCountList;
     }
 
     public static double getSuggestedMax(List<List<Double>> valuationData) {

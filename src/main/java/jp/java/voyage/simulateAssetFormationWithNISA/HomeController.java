@@ -23,6 +23,11 @@ public class HomeController {
     private SimulationParams params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams);
     private lifeEventValidation lifeEventValidMessage = new lifeEventValidation();
     private Validation validMessage = new Validation();
+    boolean validateFlg = false;
+    List<List<Double>> valuationData;
+    List<String> countList;
+    double suggestedMax;
+    int stepSize;
     @RequestMapping(value="/hello")
     String hello(Model model) {
         model.addAttribute("time", LocalDateTime.now());
@@ -32,24 +37,43 @@ public class HomeController {
     @GetMapping("/list")
     String listItems(Model model) {
         if (params.id() != null) {
-//            System.out.println(params);
-            model.addAttribute("params", params);
-            List<List<Double>> valuationData = Simulation.getValuationData(params);
-            int i = 0;
-            for (List<Double> data : valuationData) {
-//                System.out.println(data);
-                switch (i) {
-                    case 0 -> model.addAttribute("top5Percent", data);
-                    case 1 -> model.addAttribute("expectedAverage", data);
-                    case 2 -> model.addAttribute("bottom5Percent", data);
-                    case 3 -> model.addAttribute("noOperation", data);
+            if (validateFlg) {
+                model.addAttribute("params", params);
+                int i = 0;
+                for (List<Double> data : valuationData) {
+                    switch (i) {
+                        case 0 -> model.addAttribute("top5Percent", data);
+                        case 1 -> model.addAttribute("expectedAverage", data);
+                        case 2 -> model.addAttribute("bottom5Percent", data);
+                        case 3 -> model.addAttribute("noOperation", data);
+                    }
+                    i++;
                 }
-                i++;
+                model.addAttribute("monthCountList", countList);
+                model.addAttribute("suggestedMax", suggestedMax);
+                model.addAttribute("stepSize", stepSize);
+            } else {
+//            System.out.println(params);
+                model.addAttribute("params", params);
+                valuationData = Simulation.getValuationData(params);
+                int i = 0;
+                for (List<Double> data : valuationData) {
+//                System.out.println(data);
+                    switch (i) {
+                        case 0 -> model.addAttribute("top5Percent", data);
+                        case 1 -> model.addAttribute("expectedAverage", data);
+                        case 2 -> model.addAttribute("bottom5Percent", data);
+                        case 3 -> model.addAttribute("noOperation", data);
+                    }
+                    i++;
+                }
+                countList = Simulation.getAgeCountList(params);
+                model.addAttribute("monthCountList", countList);
+                suggestedMax = Simulation.getSuggestedMax(valuationData);
+                model.addAttribute("suggestedMax", suggestedMax);
+                stepSize = Simulation.getStepSize(suggestedMax);
+                model.addAttribute("stepSize", stepSize);
             }
-            model.addAttribute("monthCountList", Simulation.getAgeCountList(params));
-            double suggestedMax = Simulation.getSuggestedMax(valuationData);
-            model.addAttribute("suggestedMax", suggestedMax);
-            model.addAttribute("stepSize", Simulation.getStepSize(suggestedMax));
         }
         model.addAttribute("expectedRateOfReturnError", validMessage.expectedRateOfReturnError);
         model.addAttribute("volatilityError", validMessage.volatilityError);
@@ -99,12 +123,14 @@ public class HomeController {
             params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams);
             lifeEventValidMessage = new lifeEventValidation(); // バリデーションの初期化
             validMessage = new Validation(); // バリデーションの初期化
+            validateFlg = false;
             return "redirect:/list";
         } catch (Exception e) {
             lifeEventStr lifeEventStr = new lifeEventStr(requestLifeEventAge1, requestRequiredFunds1, requestLifeEventAge2, requestRequiredFunds2);
             lifeEventValidMessage = new lifeEventValidation();
             validMessage = new Validation();
             validMessage.typeValid(requestExpectedRateOfReturn, requestVolatility, requestStartAge, requestMonthlySavings, requestInitialValue, lifeEventStr, lifeEventValidMessage);
+            validateFlg = true;
             return "redirect:/list";
         }
     }
