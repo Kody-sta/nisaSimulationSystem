@@ -18,6 +18,9 @@ public class Simulation {
         double volatility = params.volatility() / 100; //小数
         int monthOfLifeEvent1 = (params.lifeEventParams().lifeEventAge1() - params.startAge()) * 12; // イベント発生月
         int monthOfLifeEvent2 = (params.lifeEventParams().lifeEventAge2() - params.startAge()) * 12;
+        int monthOfLifeEvent3 = (params.lifeEventParams().lifeEventAge3() - params.startAge()) * 12;
+        int monthOfLifeEvent4 = (params.lifeEventParams().lifeEventAge4() - params.startAge()) * 12;
+        int monthOfLifeEvent5 = (params.lifeEventParams().lifeEventAge5() - params.startAge()) * 12;
 
         // N回シミュレーション
         for (int n = 0; n < simuNum; n++) {
@@ -38,6 +41,25 @@ public class Simulation {
                         scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds2());
+                    }
+                } else if (i == monthOfLifeEvent3) {
+                    if (totalReserveAmount <= 1800) {
+                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds3());
+                    } else {
+                        scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds3());
+                    }
+
+                } else if (i == monthOfLifeEvent4) {
+                    if (totalReserveAmount <= 1800) {
+                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds4());
+                    } else {
+                        scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds4());
+                    }
+                } else if (i == monthOfLifeEvent5) {
+                    if (totalReserveAmount <= 1800) {
+                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds5());
+                    } else {
+                        scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds5());
                     }
                 } else {
                     if (totalReserveAmount <= 1800) {
@@ -92,13 +114,31 @@ public class Simulation {
                     if (totalReserveAmount <= 1800) {
                         noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds1());
                     } else {
-                        noOperation.add(noOperation.get(i - 1));
+                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds1());
                     }
                 } else if (i == monthOfLifeEvent2) {
                     if (totalReserveAmount <= 1800) {
                         noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
                     } else {
-                        noOperation.add(noOperation.get(i - 1));
+                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds2());
+                    }
+                } else if (i == monthOfLifeEvent3) {
+                    if (totalReserveAmount <= 1800) {
+                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds3());
+                    } else {
+                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds3());
+                    }
+                } else if (i == monthOfLifeEvent4) {
+                    if (totalReserveAmount <= 1800) {
+                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds4());
+                    } else {
+                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds4());
+                    }
+                } else if (i == monthOfLifeEvent5) {
+                    if (totalReserveAmount <= 1800) {
+                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds5());
+                    } else {
+                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds5());
                     }
                 } else {
                     if (totalReserveAmount <= 1800) {

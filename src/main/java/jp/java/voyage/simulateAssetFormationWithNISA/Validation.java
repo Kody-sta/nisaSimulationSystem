@@ -24,6 +24,12 @@ public class Validation {
         Matcher matcher7 = pattern1.matcher(lifeEventStr.requiredFunds1);
         Matcher matcher8 = pattern2.matcher(lifeEventStr.lifeEventAge2);
         Matcher matcher9 = pattern1.matcher(lifeEventStr.requiredFunds2);
+        Matcher matcher10 = pattern2.matcher(lifeEventStr.lifeEventAge3);
+        Matcher matcher11 = pattern1.matcher(lifeEventStr.requiredFunds3);
+        Matcher matcher12 = pattern2.matcher(lifeEventStr.lifeEventAge4);
+        Matcher matcher13 = pattern1.matcher(lifeEventStr.requiredFunds4);
+        Matcher matcher14 = pattern2.matcher(lifeEventStr.lifeEventAge5);
+        Matcher matcher15 = pattern1.matcher(lifeEventStr.requiredFunds5);
 
         if (!(matcher1.matches())) {
             this.expectedRateOfReturnError = "半角数字を入力";
@@ -51,6 +57,24 @@ public class Validation {
         }
         if (!(matcher9.matches()) && !(lifeEventStr.requiredFunds2.equals(""))) {
             lev.setRequiredFunds2Error("半角数字を入力");
+        }
+        if (!(matcher10.matches())&& !(lifeEventStr.lifeEventAge3.equals(""))) {
+            lev.setLifeEventAge3Error("0～64を入力");
+        }
+        if (!(matcher11.matches()) && !(lifeEventStr.requiredFunds3.equals(""))) {
+            lev.setRequiredFunds3Error("半角数字を入力");
+        }
+        if (!(matcher12.matches())&& !(lifeEventStr.lifeEventAge4.equals(""))) {
+            lev.setLifeEventAge4Error("0～64を入力");
+        }
+        if (!(matcher13.matches()) && !(lifeEventStr.requiredFunds4.equals(""))) {
+            lev.setRequiredFunds4Error("半角数字を入力");
+        }
+        if (!(matcher14.matches())&& !(lifeEventStr.lifeEventAge5.equals(""))) {
+            lev.setLifeEventAge5Error("0～64を入力");
+        }
+        if (!(matcher15.matches()) && !(lifeEventStr.requiredFunds5.equals(""))) {
+            lev.setRequiredFunds5Error("半角数字を入力");
         }
     }
 

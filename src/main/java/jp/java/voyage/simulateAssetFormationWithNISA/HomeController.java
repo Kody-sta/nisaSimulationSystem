@@ -11,7 +11,7 @@ import java.util.*;
 
 @Controller
 public class HomeController {
-    record lifeEventParams(String lifeEvent1, int lifeEventAge1, double requiredFunds1, String lifeEvent2, int lifeEventAge2, double requiredFunds2) {}
+    record lifeEventParams(String lifeEvent1, int lifeEventAge1, double requiredFunds1, String lifeEvent2, int lifeEventAge2, double requiredFunds2, String lifeEvent3, int lifeEventAge3, double requiredFunds3, String lifeEvent4, int lifeEventAge4, double requiredFunds4, String lifeEvent5, int lifeEventAge5, double requiredFunds5) {}
     record SimulationParams(String id, double expectedRateOfReturn, double volatility, int startAge, double monthlySavings, double initialValue, lifeEventParams lifeEventParams) {}
     private String id;
     private double expectedRateOfReturn;
@@ -84,22 +84,25 @@ public class HomeController {
         model.addAttribute("requiredFunds1Error", lifeEventValidMessage.requiredFunds1Error);
         model.addAttribute("lifeEventAge2Error", lifeEventValidMessage.lifeEventAge2Error);
         model.addAttribute("requiredFunds2Error", lifeEventValidMessage.requiredFunds2Error);
+        model.addAttribute("lifeEventAge3Error", lifeEventValidMessage.lifeEventAge3Error);
+        model.addAttribute("requiredFunds3Error", lifeEventValidMessage.requiredFunds3Error);
+        model.addAttribute("lifeEventAge4Error", lifeEventValidMessage.lifeEventAge4Error);
+        model.addAttribute("requiredFunds4Error", lifeEventValidMessage.requiredFunds4Error);
+        model.addAttribute("lifeEventAge5Error", lifeEventValidMessage.lifeEventAge5Error);
+        model.addAttribute("requiredFunds5Error", lifeEventValidMessage.requiredFunds5Error);
 
         return "home";
     }
 
     @GetMapping("/add")
-    String addItem(@RequestParam("expectedRateOfReturn") String requestExpectedRateOfReturn,
-                   @RequestParam("volatility") String requestVolatility,
-                   @RequestParam("startAge") String requestStartAge,
-                   @RequestParam("monthlySavings") String requestMonthlySavings,
+    String addItem(@RequestParam("expectedRateOfReturn") String requestExpectedRateOfReturn, @RequestParam("volatility") String requestVolatility,
+                   @RequestParam("startAge") String requestStartAge, @RequestParam("monthlySavings") String requestMonthlySavings,
                    @RequestParam("initialValue") String requestInitialValue,
-                   @RequestParam("lifeEvent1") String lifeEvent1,
-                   @RequestParam("lifeEventAge1") String requestLifeEventAge1,
-                   @RequestParam("requiredFunds1") String requestRequiredFunds1,
-                   @RequestParam("lifeEvent2") String lifeEvent2,
-                   @RequestParam("lifeEventAge2") String requestLifeEventAge2,
-                   @RequestParam("requiredFunds2") String requestRequiredFunds2) {
+                   @RequestParam("lifeEvent1") String lifeEvent1, @RequestParam("lifeEventAge1") String requestLifeEventAge1, @RequestParam("requiredFunds1") String requestRequiredFunds1,
+                   @RequestParam("lifeEvent2") String lifeEvent2, @RequestParam("lifeEventAge2") String requestLifeEventAge2, @RequestParam("requiredFunds2") String requestRequiredFunds2,
+                   @RequestParam("lifeEvent3") String lifeEvent3, @RequestParam("lifeEventAge3") String requestLifeEventAge3, @RequestParam("requiredFunds3") String requestRequiredFunds3,
+                   @RequestParam("lifeEvent4") String lifeEvent4, @RequestParam("lifeEventAge4") String requestLifeEventAge4, @RequestParam("requiredFunds4") String requestRequiredFunds4,
+                   @RequestParam("lifeEvent5") String lifeEvent5, @RequestParam("lifeEventAge5") String requestLifeEventAge5, @RequestParam("requiredFunds5") String requestRequiredFunds5) {
         String id = UUID.randomUUID().toString().substring(0, 8);
         try {
             double expectedRateOfReturn = Double.parseDouble(requestExpectedRateOfReturn);
@@ -109,6 +112,9 @@ public class HomeController {
             double initialValue = Double.parseDouble(requestInitialValue);
             int lifeEventAge1 = 0; double requiredFunds1 = 0;
             int lifeEventAge2 = 0; double requiredFunds2 = 0;
+            int lifeEventAge3 = 0; double requiredFunds3 = 0;
+            int lifeEventAge4 = 0; double requiredFunds4 = 0;
+            int lifeEventAge5 = 0; double requiredFunds5 = 0;
             if (!requestLifeEventAge1.equals("") && !requestRequiredFunds1.equals("")) {
                 lifeEventAge1 = Integer.parseInt(requestLifeEventAge1);
                 requiredFunds1 = Double.parseDouble(requestRequiredFunds1);
@@ -117,8 +123,20 @@ public class HomeController {
                 lifeEventAge2 = Integer.parseInt(requestLifeEventAge2);
                 requiredFunds2 = Double.parseDouble(requestRequiredFunds2);
             }
+            if (!requestLifeEventAge3.equals("") && !requestRequiredFunds3.equals("")) {
+                lifeEventAge3 = Integer.parseInt(requestLifeEventAge3);
+                requiredFunds3 = Double.parseDouble(requestRequiredFunds3);
+            }
+            if (!requestLifeEventAge4.equals("") && !requestRequiredFunds4.equals("")) {
+                lifeEventAge4 = Integer.parseInt(requestLifeEventAge4);
+                requiredFunds4 = Double.parseDouble(requestRequiredFunds4);
+            }
+            if (!requestLifeEventAge5.equals("") && !requestRequiredFunds5.equals("")) {
+                lifeEventAge5 = Integer.parseInt(requestLifeEventAge5);
+                requiredFunds5 = Double.parseDouble(requestRequiredFunds5);
+            }
 
-            lifeEventParams = new lifeEventParams(lifeEvent1, lifeEventAge1, requiredFunds1, lifeEvent2, lifeEventAge2, requiredFunds2);
+            lifeEventParams = new lifeEventParams(lifeEvent1, lifeEventAge1, requiredFunds1, lifeEvent2, lifeEventAge2, requiredFunds2, lifeEvent3, lifeEventAge3, requiredFunds3, lifeEvent4, lifeEventAge4, requiredFunds4, lifeEvent5, lifeEventAge5, requiredFunds5);
 //            System.out.println(lifeEventParams);
             params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams);
             lifeEventValidMessage = new lifeEventValidation(); // バリデーションの初期化
@@ -126,7 +144,7 @@ public class HomeController {
             validateFlg = false;
             return "redirect:/list";
         } catch (Exception e) {
-            lifeEventStr lifeEventStr = new lifeEventStr(requestLifeEventAge1, requestRequiredFunds1, requestLifeEventAge2, requestRequiredFunds2);
+            lifeEventStr lifeEventStr = new lifeEventStr(requestLifeEventAge1, requestRequiredFunds1, requestLifeEventAge2, requestRequiredFunds2, requestLifeEventAge3, requestRequiredFunds3, requestLifeEventAge4, requestRequiredFunds4, requestLifeEventAge5, requestRequiredFunds5);
             lifeEventValidMessage = new lifeEventValidation();
             validMessage = new Validation();
             validMessage.typeValid(requestExpectedRateOfReturn, requestVolatility, requestStartAge, requestMonthlySavings, requestInitialValue, lifeEventStr, lifeEventValidMessage);

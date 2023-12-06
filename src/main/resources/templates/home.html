@@ -71,6 +71,48 @@
                                     <div th:text="${requiredFunds2Error}" class="validColor"></div>
                                 </td>
                             </tr>
+                            <tr>
+                                <th><label>ライフイベント③</label></th>
+                                <td><input name="lifeEvent3" class="margin-right" type="text" /></td>
+                                <th><label>年齢</label></th>
+                                <td>
+                                    <input name="lifeEventAge3" class="margin-right" type="text" />
+                                    <div th:text="${lifeEventAge3Error}" class="validColor"></div>
+                                </td>
+                                <th><label>必要資金(万)</label></th>
+                                <td>
+                                    <input name="requiredFunds3" type="text" />
+                                    <div th:text="${requiredFunds3Error}" class="validColor"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>ライフイベント④</label></th>
+                                <td><input name="lifeEvent4" class="margin-right" type="text" /></td>
+                                <th><label>年齢</label></th>
+                                <td>
+                                    <input name="lifeEventAge4" class="margin-right" type="text" />
+                                    <div th:text="${lifeEventAge4Error}" class="validColor"></div>
+                                </td>
+                                <th><label>必要資金(万)</label></th>
+                                <td>
+                                    <input name="requiredFunds4" type="text" />
+                                    <div th:text="${requiredFunds4Error}" class="validColor"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>ライフイベント⑤</label></th>
+                                <td><input name="lifeEvent5" class="margin-right" type="text" /></td>
+                                <th><label>年齢</label></th>
+                                <td>
+                                    <input name="lifeEventAge5" class="margin-right" type="text" />
+                                    <div th:text="${lifeEventAge5Error}" class="validColor"></div>
+                                </td>
+                                <th><label>必要資金(万)</label></th>
+                                <td>
+                                    <input name="requiredFunds5" type="text" />
+                                    <div th:text="${requiredFunds5Error}" class="validColor"></div>
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div>
@@ -107,13 +149,28 @@
                          </thead>
                          <tbody>
                              <tr th:each="params : ${params}">
-                                 <td colspan="5" th:text="'・' + ${params.lifeEventParams.lifeEventAge1} + '歳で' + ${params.lifeEventParams.lifeEvent1} + 'のため' + ${params.lifeEventParams.requiredFunds1} + '万円使用'"></td>
+                                 <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge1 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge1} + '歳で' + ${params.lifeEventParams.lifeEvent1} + 'のため' + ${params.lifeEventParams.requiredFunds1} + '万円使用'"></td>
                              </tr>
                          </tbody>
                          <tbody>
                              <tr th:each="params : ${params}">
-                                 <td colspan="5" th:text="'・' + ${params.lifeEventParams.lifeEventAge2} + '歳で' + ${params.lifeEventParams.lifeEvent2} + 'のため' + ${params.lifeEventParams.requiredFunds2} + '万円使用'"></td>
+                                 <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge2 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge2} + '歳で' + ${params.lifeEventParams.lifeEvent2} + 'のため' + ${params.lifeEventParams.requiredFunds2} + '万円使用'"></td>
                              </tr>
+                         </tbody>
+                         <tbody>
+                         <tr th:each="params : ${params}">
+                             <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge3 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge3} + '歳で' + ${params.lifeEventParams.lifeEvent3} + 'のため' + ${params.lifeEventParams.requiredFunds3} + '万円使用'"></td>
+                         </tr>
+                         </tbody>
+                         <tbody>
+                         <tr th:each="params : ${params}">
+                             <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge4 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge4} + '歳で' + ${params.lifeEventParams.lifeEvent4} + 'のため' + ${params.lifeEventParams.requiredFunds4} + '万円使用'"></td>
+                         </tr>
+                         </tbody>
+                         <tbody>
+                         <tr th:each="params : ${params}">
+                             <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge5 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge5} + '歳で' + ${params.lifeEventParams.lifeEvent5} + 'のため' + ${params.lifeEventParams.requiredFunds5} + '万円使用'"></td>
+                         </tr>
                          </tbody>
                       </table>
                 </div>
