@@ -51,12 +51,12 @@ h1 {
     margin-top:10px;
 }
 .formContainer label {
-    font-size: 0.8em;
+    font-size: 1em;
     font-family: 'Source Sans Pro',arial,sans-serif;
 }
 .formContainer input, textarea {
-    font-size: 1.2em;
-    padding: 15px 10px 10px;
+    font-size: 1em;
+    padding: 10px 5px 5px;
     font-family: 'Source Sans Pro',arial,sans-serif;
     border: 1px solid #cecece;
     background: #d7d7d7;
@@ -70,8 +70,8 @@ h1 {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    width: 80%;
-    max-width: 200px;
+    width: 90%;
+    max-width: 80px;
 }
 .margin-right {
     margin-right: 20px;
@@ -97,6 +97,19 @@ h1 {
 }
 .validColor {
     color: #FF0000;
+}
+#productSelectionButton {
+        font-size: 0.9em;
+        background-color:#2ABCA7;
+        padding: 5px 5px;
+        border: 1px solid #2ABCA7;
+        display: block;
+        margin: 5px 5px;
+        cursor: pointer;
+        color:#fff;
+}
+#productSelectionButton:hover {
+    background:#19a08c;
 }
 
 /* 一覧表示 */

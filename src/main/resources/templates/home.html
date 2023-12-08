@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>新NISA資産形成シミュレーション</title>
-        <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
-        <script type="text/javascript" th:src="@{/jquery-3.7.0.min.js}"></script>
-        <script type="text/javascript" th:src="@{/bootstrap.min.js}"></script>
-        <link rel="stylesheet" th:href="@{/home.css}">
+        <link rel="stylesheet" th:href="@{/jquery-ui.min.css}">
+        <link rel="stylesheet" th:href="@{/home2.css}">
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script type="text/javascript" th:src="@{/jquery-ui.min.js}"></script>
     </head>
     <body>
         <div class="container">
@@ -14,20 +14,30 @@
                 <h1>新NISA資産形成シミュレーション</h1>
             </div>
             <div class="contents">
-                <form action="/add">
+                <form action="?">
                     <div class="formContainer">
                         <table>
                             <tr>
                                 <th><label>期待収益率(%)</label></th>
                                 <td>
-                                    <input name="expectedRateOfReturn" class="margin-right" type="text" />
+                                    <input name="expectedRateOfReturn" id="expectedRateOfReturn" class="margin-right" type="text" />
                                     <div th:text="${expectedRateOfReturnError}" class="validColor"></div>
                                 </td>
                                 <th><label>ボラティリティ(%)</label></th>
                                 <td>
-                                    <input name="volatility" type="text" />
+                                    <input name="volatility" id="volatility" type="text" />
                                     <div th:text="${volatilityError}" class="validColor"></div>
                                 </td>
+                                <th>
+                                    <form name="testForm" id="testForm">
+                                        <!-- ボタン表示 -->
+                                        <button type="button" id="productSelectionButton">商品を選択</button>
+                                        <!-- ダイアログ部分 -->
+                                        <div id="dialog">
+                                            <div th:include="dialog :: productSelection_body"></div>
+                                        </div>
+                                    </form>
+                                </th>
                             </tr>
                             <tr>
                                 <th><label>シミュレーション<br>開始年齢</label></th>
@@ -119,7 +129,7 @@
                         </table>
                     </div>
                     <div>
-                        <input type="submit" class="button" value="開始" />
+                        <input type="submit" class="button" value="開始" formaction="/add" />
                     </div>
                 </form>
 
@@ -236,6 +246,75 @@
                   },
                 }
               });
+        </script>
+        <script type="text/javascript">
+            $(function(){
+                $("#dialog").dialog({
+                autoOpen:false,
+                width:900,
+                height:600,
+                modal:true,
+                buttons:{
+                    "選択":function(){
+                        const productName = $('input:radio[name="productName"]:checked').val();
+                        if (productName === 'sbi_allCountry') {
+                            $("#expectedRateOfReturn").val(9.999);
+                            $("#volatility").val(19.916);
+                        } else if (productName === 'nissei_nikkeiAverage') {
+                            $("#expectedRateOfReturn").val(9.165);
+                            $("#volatility").val(22.358);
+                        } else if (productName === 'nissei_foreignStocks') {
+                            $("#expectedRateOfReturn").val(11.027);
+                            $("#volatility").val(19.450);
+                        } else if (productName === 'nissei_nikkei225') {
+                            $("#expectedRateOfReturn").val(8.777);
+                            $("#volatility").val(23.106);
+                        } else if (productName === 'mitsui_japaneseStocks') {
+                            $("#expectedRateOfReturn").val(6.979);
+                            $("#volatility").val(21.092);
+                        } else if (productName === 'ufj_s&p500') {
+                            $("#expectedRateOfReturn").val(12.432);
+                            $("#volatility").val(21.325);
+                        } else if (productName === 'ufj_emergingCountryStocks') {
+                            $("#expectedRateOfReturn").val(6.146);
+                            $("#volatility").val(17.163);
+                        } else if (productName === 'ufj_developedCountryStocks') {
+                            $("#expectedRateOfReturn").val(11.056);
+                            $("#volatility").val(19.472);
+                        } else if (productName === 'ufj_allCountryExceptJapan') {
+                            $("#expectedRateOfReturn").val(10.331);
+                            $("#volatility").val(18.537);
+                        } else if (productName === 'sbi_globalSmallMid-capStocks') {
+                            $("#expectedRateOfReturn").val(9.086);
+                            $("#volatility").val(22.915);
+                        } else if (productName === 'capital_allCountry') {
+                            $("#expectedRateOfReturn").val(12.961);
+                            $("#volatility").val(18.889);
+                        } else if (productName === 'iFree_nydow') {
+                            $("#expectedRateOfReturn").val(10.451);
+                            $("#volatility").val(21.279);
+                        } else if (productName === 'norin_oobune') {
+                            $("#expectedRateOfReturn").val(9.506);
+                            $("#volatility").val(18.545);
+                        } else {
+                            $("#expectedRateOfReturn").val();
+                            $("#volatility").val();
+                        }
+
+                        $("#dialog").dialog("close");
+                    },
+                    "Cancel":function(){
+                        // ダイアログを非表示
+                        $("#dialog").dialog("close");
+                    }
+                }
+            });
+
+            $("#productSelectionButton").click(function(){
+                // ダイアログを表示
+                $("#dialog").dialog("open");
+                });
+            });
         </script>
     </body>
 </html>

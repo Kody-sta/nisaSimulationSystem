@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -151,5 +153,11 @@ public class HomeController {
             validateFlg = true;
             return "redirect:/list";
         }
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView getHome(ModelAndView mav) {
+        mav.setViewName("home");
+        return mav;
     }
 }
