@@ -99,7 +99,7 @@ h1 {
 .validColor {
     color: #FF0000;
 }
-#productSelectionButton {
+#productSelectionButton, #lifePlanButton {
     font-size: 0.9em;
     background-color:#2ABCA7;
     padding: 5px 5px;
@@ -113,7 +113,7 @@ h1 {
     color:#fff;
     transition: .5s;
 }
-#productSelectionButton:hover {
+#productSelectionButton:hover, #lifePlanButton:hover {
     color:#2ABCA7;
     background:#fff;
 }
@@ -167,4 +167,15 @@ h1 {
 }
 .productSelection input {
     transform: scale(1.5)
+}
+
+/* ライフプランの表示/非表示 */
+#lifePlanButton {
+    margin: 15px auto;
+}
+.lifePlan {
+    display: none;
+}
+.display {
+    display: table-row;
 }
