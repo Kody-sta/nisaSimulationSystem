@@ -1,163 +1,166 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
-      <meta charset="UTF-8">
-      <title>商品選択</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/home.css}">
+        <title>商品選択</title>
     </head>
     <body>
         <div th:fragment="productSelection_body">
-            <p>インデックス運用ファンド</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ファンド名称</th>
-                        <th>期待収益率</th>
-                        <th>ボラティリティ</th>
-                        <th>運用会社</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="productSelection">
+                <h3>●インデックス運用ファンド</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ファンド名称</th>
+                            <th class="returnWidth">期待収益率</th>
+                            <th class="volaWidth">ボラティリティ</th>
+                            <th class="companyWidth">運用会社</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="radio" id="sbi_allCountry" name="productName" value="sbi_allCountry"/>
+                                <label for="sbi_allCountry">ＳＢＩ・全世界株式インデックスファンド</label>
+                            </td>
+                            <td>9.999%</td>
+                            <td>19.916%</td>
+                            <td>SBIアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="nissei_nikkeiAverage" name="productName" value="nissei_nikkei"/>
+                                <label for="nissei_nikkeiAverage">＜購入・換金手数料なし＞ニッセイ日経平均インデックスファンド</label>
+                            </td>
+                            <td>9.165%</td>
+                            <td>22.358%</td>
+                            <td>ニッセイアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="nissei_foreignStocks" name="productName" value="nissei_foreignStocks"/>
+                                <label for="nissei_foreignStocks">＜購入・換金手数料なし＞ニッセイ外国株式インデックスファンド</label>
+                            </td>
+                            <td>11.027%</td>
+                            <td>19.450%</td>
+                            <td>ニッセイアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="nissei_nikkei225" name="productName" value="nissei_nikkei225"/>
+                                <label for="nissei_nikkei225">ニッセイ日経２２５インデックスファンド</label>
+                            </td>
+                            <td>8.777%</td>
+                            <td>23.106%</td>
+                            <td>ニッセイアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="mitsui_japaneseStocks" name="productName" value="mitsui_japaneseStocks"/>
+                                <label for="mitsui_japaneseStocks">三井住友・ＤＣつみたてＮＩＳＡ・日本株インデックスファンド</label>
+                            </td>
+                            <td>6.979%</td>
+                            <td>21.092%</td>
+                            <td>三井住友DSアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="ufj_topix" name="productName" value="ufj_topix"/>
+                                <label for="ufj_topix">eMAXIS Slim 国内株式(TOPIX)</label>
+                            </td>
+                            <td>6.412%</td>
+                            <td>21.243%</td>
+                            <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="ufj_s&p500" name="productName" value="ufj_s&p500"/>
+                                <label for="ufj_s&p500">eMAXIS Slim 米国株式(S&P500)</label>
+                            </td>
+                            <td>12.432%</td>
+                            <td>21.325%</td>
+                            <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="ufj_emergingCountryStocks" name="productName" value="ufj_emergingCountryStocks"/>
+                                <label for="ufj_emergingCountryStocks">eMAXIS Slim 新興国株式インデックス</label>
+                            </td>
+                            <td>6.146%</td>
+                            <td>17.163%</td>
+                            <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="ufj_developedCountryStocks" name="productName" value="ufj_developedCountryStocks"/>
+                                <label for="ufj_developedCountryStocks">eMAXIS Slim 先進国株式インデックス</label>
+                            </td>
+                            <td>11.056%</td>
+                            <td>19.472%</td>
+                            <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                          <td>
+                              <input type="radio" id="ufj_allCountryExceptJapan" name="productName" value="ufj_allCountryExceptJapan"/>
+                              <label for="ufj_allCountryExceptJapan">eMAXIS Slim 全世界株式(除く日本)</label>
+                          </td>
+                          <td>10.331%</td>
+                          <td>18.537%</td>
+                          <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>●アクティブ運用ファンド</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ファンド名称</th>
+                            <th class="returnWidth">期待収益率</th>
+                            <th class="volaWidth">ボラティリティ</th>
+                            <th class="companyWidth">運用会社</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>
-                            <input type="radio" id="sbi_allCountry" name="productName" value="sbi_allCountry"/>
-                            <label for="sbi_allCountry">ＳＢＩ・全世界株式インデックスファンド</label>
+                            <input type="radio" id="sbi_globalSmallMid-capStocks" name="productName" value="sbi_globalSmallMid-capStocks"/>
+                            <label for="sbi_globalSmallMid-capStocks">EXE-i グローバル中小型株式ファンド</label>
                         </td>
-                        <td>9.999%</td>
-                        <td>19.916%</td>
+                        <td>9.086%</td>
+                        <td>22.915%</td>
                         <td>SBIアセットマネジメント㈱</td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="radio" id="nissei_nikkeiAverage" name="productName" value="nissei_nikkei"/>
-                            <label for="nissei_nikkeiAverage">＜購入・換金手数料なし＞ニッセイ日経平均インデックスファンド</label>
+                            <input type="radio" id="capital_allCountry" name="productName" value="capital_allCountry"/>
+                            <label for="capital_allCountry">キャピタル世界株式ファンド（ＤＣ年金つみたて専用）</label>
                         </td>
-                        <td>9.165%</td>
-                        <td>22.358%</td>
-                        <td>ニッセイアセットマネジメント㈱</td>
+                        <td>12.961%</td>
+                        <td>18.889%</td>
+                        <td>キャピタル・インターナショナル㈱</td>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="nissei_foreignStocks" name="productName" value="nissei_foreignStocks"/>
-                            <label for="nissei_foreignStocks">＜購入・換金手数料なし＞ニッセイ外国株式インデックスファンド</label>
-                        </td>
-                        <td>11.027%</td>
-                        <td>19.450%</td>
-                        <td>ニッセイアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="nissei_nikkei225" name="productName" value="nissei_nikkei225"/>
-                            <label for="nissei_nikkei225">ニッセイ日経２２５インデックスファンド</label>
-                        </td>
-                        <td>8.777%</td>
-                        <td>23.106%</td>
-                        <td>ニッセイアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="mitsui_japaneseStocks" name="productName" value="mitsui_japaneseStocks"/>
-                            <label for="mitsui_japaneseStocks">三井住友・ＤＣつみたてＮＩＳＡ・日本株インデックスファンド</label>
-                        </td>
-                        <td>6.979%</td>
-                        <td>21.092%</td>
-                        <td>三井住友DSアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="ufj_topix" name="productName" value="ufj_topix"/>
-                            <label for="ufj_topix">eMAXIS Slim 国内株式(TOPIX)</label>
-                        </td>
-                        <td>6.412%</td>
-                        <td>21.243%</td>
-                        <td>三菱ＵＦＪアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="ufj_s&p500" name="productName" value="ufj_s&p500"/>
-                            <label for="ufj_s&p500">eMAXIS Slim 米国株式(S&P500)</label>
-                        </td>
-                        <td>12.432%</td>
-                        <td>21.325%</td>
-                        <td>三菱ＵＦＪアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="ufj_emergingCountryStocks" name="productName" value="ufj_emergingCountryStocks"/>
-                            <label for="ufj_emergingCountryStocks">eMAXIS Slim 新興国株式インデックス</label>
-                        </td>
-                        <td>6.146%</td>
-                        <td>17.163%</td>
-                        <td>三菱ＵＦＪアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="ufj_developedCountryStocks" name="productName" value="ufj_developedCountryStocks"/>
-                            <label for="ufj_developedCountryStocks">eMAXIS Slim 先進国株式インデックス</label>
-                        </td>
-                        <td>11.056%</td>
-                        <td>19.472%</td>
-                        <td>三菱ＵＦＪアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                      <td>
-                          <input type="radio" id="ufj_allCountryExceptJapan" name="productName" value="ufj_allCountryExceptJapan"/>
-                          <label for="ufj_allCountryExceptJapan">eMAXIS Slim 全世界株式(除く日本)</label>
-                      </td>
-                      <td>10.331%</td>
-                      <td>18.537%</td>
-                      <td>三菱ＵＦＪアセットマネジメント㈱</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>アクティブ運用ファンド</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ファンド名称</th>
-                        <th>期待収益率</th>
-                        <th>ボラティリティ</th>
-                        <th>運用会社</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>
-                        <input type="radio" id="sbi_globalSmallMid-capStocks" name="productName" value="sbi_globalSmallMid-capStocks"/>
-                        <label for="sbi_globalSmallMid-capStocks">EXE-i グローバル中小型株式ファンド</label>
-                    </td>
-                    <td>9.086%</td>
-                    <td>22.915%</td>
-                    <td>SBIアセットマネジメント㈱</td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="radio" id="capital_allCountry" name="productName" value="capital_allCountry"/>
-                        <label for="capital_allCountry">キャピタル世界株式ファンド（ＤＣ年金つみたて専用）</label>
-                    </td>
-                    <td>12.961%</td>
-                    <td>18.889%</td>
-                    <td>キャピタル・インターナショナル㈱</td>
-                </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="iFree_nydow" name="productName" value="iFree_nydow"/>
-                            <label for="iFree_nydow">ｉＦｒｅｅ ＮＹダウ・インデックス</label>
-                        </td>
-                        <td>10.451%</td>
-                        <td>21.279%</td>
-                        <td>大和アセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="norin_oobune" name="productName" value="norin_oobune"/>
-                            <label for="norin_oobune">農林中金＜パートナーズ＞長期厳選投資 おおぶね</label>
-                        </td>
-                        <td>9.506%</td>
-                        <td>18.545%</td>
-                        <td>農林中金全共連アセットマネジメント㈱</td>
-                    </tr>
-                </tbody>
-            </table>
+                        <tr>
+                            <td>
+                                <input type="radio" id="iFree_nydow" name="productName" value="iFree_nydow"/>
+                                <label for="iFree_nydow">ｉＦｒｅｅ ＮＹダウ・インデックス</label>
+                            </td>
+                            <td>10.451%</td>
+                            <td>21.279%</td>
+                            <td>大和アセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="norin_oobune" name="productName" value="norin_oobune"/>
+                                <label for="norin_oobune">農林中金＜パートナーズ＞長期厳選投資 おおぶね</label>
+                            </td>
+                            <td>9.506%</td>
+                            <td>18.545%</td>
+                            <td>農林中金全共連アセットマネジメント㈱</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>
 </html>

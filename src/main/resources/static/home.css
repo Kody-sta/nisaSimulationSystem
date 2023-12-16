@@ -60,7 +60,7 @@ h1 {
     font-family: 'Source Sans Pro',arial,sans-serif;
     border: 1px solid #cecece;
     background: #d7d7d7;
-    color:#FAFAFA;
+    color:#000;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -99,14 +99,14 @@ h1 {
     color: #FF0000;
 }
 #productSelectionButton {
-        font-size: 0.9em;
-        background-color:#2ABCA7;
-        padding: 5px 5px;
-        border: 1px solid #2ABCA7;
-        display: block;
-        margin: 5px 5px;
-        cursor: pointer;
-        color:#fff;
+    font-size: 0.9em;
+    background-color:#2ABCA7;
+    padding: 5px 5px;
+    border: 1px solid #2ABCA7;
+    display: block;
+    margin: 5px 5px;
+    cursor: pointer;
+    color:#fff;
 }
 #productSelectionButton:hover {
     background:#19a08c;
@@ -134,4 +134,31 @@ h1 {
 .chartContainer {
     width:80%;
     margin:0 auto;
+}
+
+/* 商品選択ダイアログ */
+.productSelection {
+    margin: 20px;
+    font-size: 0.9em;
+}
+.productSelection table {
+    width:90%;
+    margin:0 auto;
+    padding: 10px;
+    border-collapse: collapse;
+}
+.productSelection th, .productSelection td {
+    border: solid 2px #888;
+}
+.returnWidth {
+    width:100px;
+}
+.volaWidth {
+    width:120px;
+}
+.companyWidth {
+    width:140px;
+}
+.productSelection input {
+    transform: scale(1.5)
 }
