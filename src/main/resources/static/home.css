@@ -83,7 +83,7 @@ h1 {
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
     border-radius: 5px;
-    border: 1px solid #2ABCA7;
+    border: 3px solid #2ABCA7;
     -webkit-transition: .5s;
     transition: .5s;
     display: block;
@@ -93,7 +93,8 @@ h1 {
     color:#fff;
 }
 .button:hover {
-    background:#19a08c;
+    color:#2ABCA7;
+    background:#fff;
 }
 .validColor {
     color: #FF0000;
@@ -102,14 +103,19 @@ h1 {
     font-size: 0.9em;
     background-color:#2ABCA7;
     padding: 5px 5px;
-    border: 1px solid #2ABCA7;
+    border: 2px solid #2ABCA7;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
     display: block;
     margin: 5px 5px;
     cursor: pointer;
     color:#fff;
+    transition: .5s;
 }
 #productSelectionButton:hover {
-    background:#19a08c;
+    color:#2ABCA7;
+    background:#fff;
 }
 
 /* 一覧表示 */
