@@ -261,6 +261,18 @@
                         if (productName === 'sbi_allCountry') {
                             $("#expectedRateOfReturn").val(9.999);
                             $("#volatility").val(19.916);
+                        } else if (productName === 'one_developedCountry') {
+                            $("#expectedRateOfReturn").val(12.327);
+                            $("#volatility").val(21.455);
+                        } else if (productName === 'one_allCountry') {
+                            $("#expectedRateOfReturn").val(11.172);
+                            $("#volatility").val(18.341);
+                        } else if (productName === 'daiwa_s&p500') {
+                            $("#expectedRateOfReturn").val(12.360);
+                            $("#volatility").val(21.350);
+                        } else if (productName === 'daiwa_emergingCountry') {
+                            $("#expectedRateOfReturn").val(7.237);
+                            $("#volatility").val(16.471);
                         } else if (productName === 'nissei_nikkeiAverage') {
                             $("#expectedRateOfReturn").val(9.165);
                             $("#volatility").val(22.358);
@@ -273,6 +285,12 @@
                         } else if (productName === 'mitsui_japaneseStocks') {
                             $("#expectedRateOfReturn").val(6.979);
                             $("#volatility").val(21.092);
+                        } else if (productName === 'ufj_nikkeiAverage') {
+                            $("#expectedRateOfReturn").val(9.178);
+                            $("#volatility").val(22.388);
+                        } else if (productName === 'ufj_topix') {
+                            $("#expectedRateOfReturn").val(6.412);
+                            $("#volatility").val(21.243);
                         } else if (productName === 'ufj_s&p500') {
                             $("#expectedRateOfReturn").val(12.432);
                             $("#volatility").val(21.325);
@@ -282,16 +300,31 @@
                         } else if (productName === 'ufj_developedCountryStocks') {
                             $("#expectedRateOfReturn").val(11.056);
                             $("#volatility").val(19.472);
+                        } else if (productName === 'ufj_allCountry') {
+                            $("#expectedRateOfReturn").val(9.905);
+                            $("#volatility").val(17.836);
                         } else if (productName === 'ufj_allCountryExceptJapan') {
                             $("#expectedRateOfReturn").val(10.331);
                             $("#volatility").val(18.537);
+                        } else if (productName === 'ufj_balance') {
+                            $("#expectedRateOfReturn").val(4.830);
+                            $("#volatility").val(9.962);
+                        } else if (productName === 'rakuten_USA') {
+                            $("#expectedRateOfReturn").val(11.905);
+                            $("#volatility").val(21.448);
                         } else if (productName === 'sbi_globalSmallMid-capStocks') {
                             $("#expectedRateOfReturn").val(9.086);
                             $("#volatility").val(22.915);
                         } else if (productName === 'capital_allCountry') {
                             $("#expectedRateOfReturn").val(12.961);
                             $("#volatility").val(18.889);
-                        } else if (productName === 'iFree_nydow') {
+                        } else if (productName === 'daiwa_fang') {
+                            $("#expectedRateOfReturn").val(21.404);
+                            $("#volatility").val(30.861);
+                        } else if (productName === 'daiwa_nasdaq100') {
+                            $("#expectedRateOfReturn").val(16.320);
+                            $("#volatility").val(24.880);
+                        } else if (productName === 'daiwa_nydow') {
                             $("#expectedRateOfReturn").val(10.451);
                             $("#volatility").val(21.279);
                         } else if (productName === 'norin_oobune') {
@@ -316,6 +349,7 @@
                 $("#dialog").dialog("open");
             });
 
+            // ライフプランの表示非表示
             $("#lifePlanButton").click(function(){
                 $(".lifePlan").toggleClass("display");
             });

@@ -8,6 +8,7 @@
     <body>
         <div th:fragment="productSelection_body">
             <div class="productSelection">
+                <h2>◎つみたてNISA対象商品</h2>
                 <h3>●インデックス運用ファンド</h3>
                 <table>
                     <thead>
@@ -30,7 +31,43 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="radio" id="nissei_nikkeiAverage" name="productName" value="nissei_nikkei"/>
+                                <input type="radio" id="one_developedCountry" name="productName" value="one_developedCountry"/>
+                                <label for="one_developedCountry">たわらノーロード 先進国株式</label>
+                            </td>
+                            <td>12.327%</td>
+                            <td>21.455%</td>
+                            <td>アセットマネジメントOne㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="one_allCountry" name="productName" value="one_allCountry"/>
+                                <label for="one_allCountry">たわらノーロード 全世界株式</label>
+                            </td>
+                            <td>11.172%</td>
+                            <td>18.341%</td>
+                            <td>アセットマネジメントOne㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="daiwa_s&p500" name="productName" value="daiwa_s&p500"/>
+                                <label for="daiwa_s&p500">iFree S&P500インデックス</label>
+                            </td>
+                            <td>12.360%</td>
+                            <td>21.350%</td>
+                            <td>大和アセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="daiwa_emergingCountry" name="productName" value="daiwa_emergingCountry"/>
+                                <label for="daiwa_emergingCountry">iFree 新興国株式インデックス</label>
+                            </td>
+                            <td>7.237%</td>
+                            <td>16.471%</td>
+                            <td>大和アセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="nissei_nikkeiAverage" name="productName" value="nissei_nikkeiAverage"/>
                                 <label for="nissei_nikkeiAverage">＜購入・換金手数料なし＞ニッセイ日経平均インデックスファンド</label>
                             </td>
                             <td>9.165%</td>
@@ -63,6 +100,15 @@
                             <td>6.979%</td>
                             <td>21.092%</td>
                             <td>三井住友DSアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="ufj_nikkeiAverage" name="productName" value="ufj_nikkeiAverage"/>
+                                <label for="ufj_nikkeiAverage">eMAXIS Slim 国内株式(日経平均)</label>
+                            </td>
+                            <td>9.178%</td>
+                            <td>22.388%</td>
+                            <td>三菱ＵＦＪアセットマネジメント㈱</td>
                         </tr>
                         <tr>
                             <td>
@@ -101,6 +147,15 @@
                             <td>三菱ＵＦＪアセットマネジメント㈱</td>
                         </tr>
                         <tr>
+                            <td>
+                                <input type="radio" id="ufj_allCountry" name="productName" value="ufj_allCountry"/>
+                                <label for="ufj_allCountry">eMAXIS Slim 全世界株式</label>
+                            </td>
+                            <td>9.905%</td>
+                            <td>17.836%</td>
+                            <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
                           <td>
                               <input type="radio" id="ufj_allCountryExceptJapan" name="productName" value="ufj_allCountryExceptJapan"/>
                               <label for="ufj_allCountryExceptJapan">eMAXIS Slim 全世界株式(除く日本)</label>
@@ -108,6 +163,24 @@
                           <td>10.331%</td>
                           <td>18.537%</td>
                           <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="ufj_balance" name="productName" value="ufj_balance"/>
+                                <label for="ufj_balance">eMAXIS Slim バランス（8資産均等型）</label>
+                            </td>
+                            <td>4.830%</td>
+                            <td>9.962%</td>
+                            <td>三菱ＵＦＪアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="rakuten_USA" name="productName" value="rakuten_USA"/>
+                                <label for="rakuten_USA">楽天・全米株式インデックス・ファンド</label>
+                            </td>
+                            <td>11.905%</td>
+                            <td>21.448%</td>
+                            <td>楽天投信投資顧問㈱</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,28 +195,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <input type="radio" id="sbi_globalSmallMid-capStocks" name="productName" value="sbi_globalSmallMid-capStocks"/>
-                            <label for="sbi_globalSmallMid-capStocks">EXE-i グローバル中小型株式ファンド</label>
-                        </td>
-                        <td>9.086%</td>
-                        <td>22.915%</td>
-                        <td>SBIアセットマネジメント㈱</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="radio" id="capital_allCountry" name="productName" value="capital_allCountry"/>
-                            <label for="capital_allCountry">キャピタル世界株式ファンド（ＤＣ年金つみたて専用）</label>
-                        </td>
-                        <td>12.961%</td>
-                        <td>18.889%</td>
-                        <td>キャピタル・インターナショナル㈱</td>
-                    </tr>
                         <tr>
                             <td>
-                                <input type="radio" id="iFree_nydow" name="productName" value="iFree_nydow"/>
-                                <label for="iFree_nydow">ｉＦｒｅｅ ＮＹダウ・インデックス</label>
+                                <input type="radio" id="sbi_globalSmallMid-capStocks" name="productName" value="sbi_globalSmallMid-capStocks"/>
+                                <label for="sbi_globalSmallMid-capStocks">EXE-i グローバル中小型株式ファンド</label>
+                            </td>
+                            <td>9.086%</td>
+                            <td>22.915%</td>
+                            <td>SBIアセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="capital_allCountry" name="productName" value="capital_allCountry"/>
+                                <label for="capital_allCountry">キャピタル世界株式ファンド（ＤＣ年金つみたて専用）</label>
+                            </td>
+                            <td>12.961%</td>
+                            <td>18.889%</td>
+                            <td>キャピタル・インターナショナル㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="daiwa_fang" name="productName" value="daiwa_fang"/>
+                                <label for="daiwa_fang">iFreeNEXT FANG+インデックス</label>
+                            </td>
+                            <td>21.404%</td>
+                            <td>30.861%</td>
+                            <td>大和アセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="daiwa_nasdaq100" name="productName" value="daiwa_nasdaq100"/>
+                                <label for="daiwa_nasdaq100">iFreeNEXT NASDAQ100インデックス </label>
+                            </td>
+                            <td>16.320%</td>
+                            <td>24.880%</td>
+                            <td>大和アセットマネジメント㈱</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="radio" id="daiwa_nydow" name="productName" value="daiwa_nydow"/>
+                                <label for="daiwa_nydow">iFree NYダウ・インデックス</label>
                             </td>
                             <td>10.451%</td>
                             <td>21.279%</td>
