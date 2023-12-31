@@ -9,53 +9,83 @@ import java.util.*;
 public class Simulation {
     static int simuNum = 10000;
 
+    /**
+     * 入力値からブラックショールズモデルを用いて、将来の資産額を算出します
+     * @param params 入力値
+     * @return グラフの値
+     */
     public static List<List<Double>> getValuationData(SimulationParams params) {
+        // 運用月数、イベント発生月のマップ
+        Map<String, Integer> monthElement = new HashMap<>() {
+            {
+                put("monthCount", (65 - params.startAge()) * 12);
+                put("monthOfLifeEvent1", (params.lifeEventParams().lifeEventAge1() - params.startAge()) * 12);
+                put("monthOfLifeEvent2", (params.lifeEventParams().lifeEventAge2() - params.startAge()) * 12);
+                put("monthOfLifeEvent3", (params.lifeEventParams().lifeEventAge3() - params.startAge()) * 12);
+                put("monthOfLifeEvent4", (params.lifeEventParams().lifeEventAge4() - params.startAge()) * 12);
+                put("monthOfLifeEvent5", (params.lifeEventParams().lifeEventAge5() - params.startAge()) * 12);
+            }
+        };
+
+        // N回分のシナリオ作成
         List<List<Double>> simuArr = new ArrayList<>();
+        createScenario(params, simuArr, monthElement);
+//        System.out.println(simuArr);
+
+        // VaRのシナリオ作成
+        List<List<Double>> VaR = new ArrayList<>();
+        VaR = createVaR(params, simuArr, VaR, monthElement);
+//        System.out.println(VaR);
+
+        return VaR;
+    }
+
+    /**
+     * シミュレーション回数分のシナリオを作成します
+     *
+     * @param params 入力値
+     * @param simuArr シミュレーション回数分のシナリオ
+     * @param monthElement 運用月数andイベント発生月
+     */
+    private static void createScenario(SimulationParams params, List<List<Double>> simuArr, Map<String, Integer> monthElement) {
         Random random = new Random();
 
-        int monthCount = (65 - params.startAge()) * 12; // 運用月数
-        double expectedRateOfReturn = params.expectedRateOfReturn() / 100; // 小数
-        double volatility = params.volatility() / 100; //小数
-        int monthOfLifeEvent1 = (params.lifeEventParams().lifeEventAge1() - params.startAge()) * 12; // イベント発生月
-        int monthOfLifeEvent2 = (params.lifeEventParams().lifeEventAge2() - params.startAge()) * 12;
-        int monthOfLifeEvent3 = (params.lifeEventParams().lifeEventAge3() - params.startAge()) * 12;
-        int monthOfLifeEvent4 = (params.lifeEventParams().lifeEventAge4() - params.startAge()) * 12;
-        int monthOfLifeEvent5 = (params.lifeEventParams().lifeEventAge5() - params.startAge()) * 12;
+        double expectedRateOfReturn = params.expectedRateOfReturn() / 100; // 小数に変換
+        double volatility = params.volatility() / 100; //小数に変換
 
         // N回シミュレーション
         for (int n = 0; n < simuNum; n++) {
             List<Double> scenario = new ArrayList<>();
             double totalReserveAmount = params.monthlySavings();
             scenario.add(params.initialValue() + params.monthlySavings()); // 積立1か月目
-            for (int i = 1; i < monthCount; i++) {
+            for (int i = 1; i < monthElement.get("monthCount"); i++) {
                 double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0); // 増分
                 totalReserveAmount += params.monthlySavings();
-                if (i == monthOfLifeEvent1) { // イベント①発生
+                if (i == monthElement.get("monthOfLifeEvent1")) { // イベント①発生
                     if (totalReserveAmount <= 1800) { // 積立上限判定
                         scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds1());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds1());
                     }
-                } else if (i == monthOfLifeEvent2) {
+                } else if (i == monthElement.get("monthOfLifeEvent2")) {
                     if (totalReserveAmount <= 1800) {
                         scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds2());
                     }
-                } else if (i == monthOfLifeEvent3) {
+                } else if (i == monthElement.get("monthOfLifeEvent3")) {
                     if (totalReserveAmount <= 1800) {
                         scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds3());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds3());
                     }
-
-                } else if (i == monthOfLifeEvent4) {
+                } else if (i == monthElement.get("monthOfLifeEvent4")) {
                     if (totalReserveAmount <= 1800) {
                         scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds4());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds4());
                     }
-                } else if (i == monthOfLifeEvent5) {
+                } else if (i == monthElement.get("monthOfLifeEvent5")) {
                     if (totalReserveAmount <= 1800) {
                         scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds5());
                     } else {
@@ -71,83 +101,38 @@ public class Simulation {
             }
             simuArr.add(scenario);
         }
-//        System.out.println(simuArr);
+    }
 
-        // VaRのシナリオ作成
-        List<List<Double>> VaR = new ArrayList<>();
+    /**
+     * 不確実性のシナリオを作成します
+     *
+     * @param params 入力値
+     * @param simuArr シミュレーション回数分のシナリオ
+     * @param VaR 不確実性のシナリオ
+     * @param monthElement 運用月数andイベント発生月
+     * @return 上位30%、予想平均、下位30％、下位10%、運用なしのVaR
+     */
+    private static List<List<Double>> createVaR(SimulationParams params, List<List<Double>> simuArr, List<List<Double>> VaR, Map<String, Integer> monthElement) {
         List<Double> top5Percent = new ArrayList<>();
         List<Double> expectedAverage = new ArrayList<>();
         List<Double> bottom5Percent = new ArrayList<>();
         List<Double> noOperation = new ArrayList<>();
-        double totalReserveAmount = params.monthlySavings();
-        for (int i = 0; i < monthCount; i++) {
+
+        for (int i = 0; i < monthElement.get("monthCount"); i++) {
+            // 月ごとの値を取得
             List<Double> monthlyValue = new ArrayList<>();
             for (List<Double> sce : simuArr) {
                 monthlyValue.add(sce.get(i));
             }
 
             // 予想平均
-            double average = monthlyValue.stream()
-                    .mapToDouble(a -> a)
-                    .average()
-                    .orElse(0);
-            BigDecimal bdAverage = getRoundingOffNum(average);
-            average = Double.parseDouble(String.valueOf(bdAverage));
-            expectedAverage.add(average);
+            getExpectedAverage(monthlyValue, expectedAverage);
 
             // 上位5％、下位5％
-            Collections.sort(monthlyValue);
-            BigDecimal bdTop = getRoundingOffNum(monthlyValue.get(simuNum - (simuNum / 20)));
-            double top5 = Double.parseDouble(String.valueOf(bdTop));
-            top5Percent.add(top5);
-
-            BigDecimal bdBottom = getRoundingOffNum(monthlyValue.get(simuNum / 20));
-            double bottom5 = Double.parseDouble(String.valueOf(bdBottom));
-            bottom5Percent.add(bottom5);
+            getVaR(monthlyValue, top5Percent, bottom5Percent);
 
             // 運用なし
-            if (i == 0) {
-                noOperation.add(params.monthlySavings());
-            } else {
-                totalReserveAmount += params.monthlySavings();
-                if (i == monthOfLifeEvent1) { // イベント①発生
-                    if (totalReserveAmount <= 1800) {
-                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds1());
-                    } else {
-                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds1());
-                    }
-                } else if (i == monthOfLifeEvent2) {
-                    if (totalReserveAmount <= 1800) {
-                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
-                    } else {
-                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds2());
-                    }
-                } else if (i == monthOfLifeEvent3) {
-                    if (totalReserveAmount <= 1800) {
-                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds3());
-                    } else {
-                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds3());
-                    }
-                } else if (i == monthOfLifeEvent4) {
-                    if (totalReserveAmount <= 1800) {
-                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds4());
-                    } else {
-                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds4());
-                    }
-                } else if (i == monthOfLifeEvent5) {
-                    if (totalReserveAmount <= 1800) {
-                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds5());
-                    } else {
-                        noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds5());
-                    }
-                } else {
-                    if (totalReserveAmount <= 1800) {
-                        noOperation.add(noOperation.get(i - 1) + params.monthlySavings());
-                    } else {
-                        noOperation.add(noOperation.get(i - 1));
-                    }
-                }
-            }
+            getNoOperation(i, params, monthElement, noOperation);
         }
 
         VaR.add(top5Percent);
@@ -155,11 +140,103 @@ public class Simulation {
         VaR.add(bottom5Percent);
         VaR.add(noOperation);
 
-//        System.out.println(VaR);
-
         return VaR;
     }
 
+    /**
+     * 月ごとの平均値を取得
+     *
+     * @param monthlyValue シミュレーション回数分のiか月目のリスト
+     * @param expectedAverage 予想平均のシナリオ
+     */
+    private static void getExpectedAverage(List<Double> monthlyValue, List<Double> expectedAverage) {
+        double average = monthlyValue.stream()
+                .mapToDouble(a -> a)
+                .average()
+                .orElse(0);
+        BigDecimal bdAverage = getRoundingOffNum(average);
+        average = Double.parseDouble(String.valueOf(bdAverage));
+        expectedAverage.add(average);
+    }
+
+    /**
+     * 上位5％。、下位5％のシナリオ
+     *
+     * @param monthlyValue シミュレーション回数分のiか月目のリスト
+     * @param top5Percent 上位5％のシナリオ
+     * @param bottom5Percent 下位5％のシナリオ
+     */
+    private static void getVaR(List<Double> monthlyValue, List<Double> top5Percent, List<Double> bottom5Percent) {
+        Collections.sort(monthlyValue);
+        BigDecimal bdTop = getRoundingOffNum(monthlyValue.get(simuNum - (simuNum / 20)));
+        double top5 = Double.parseDouble(String.valueOf(bdTop));
+        top5Percent.add(top5);
+
+        BigDecimal bdBottom = getRoundingOffNum(monthlyValue.get(simuNum / 20));
+        double bottom5 = Double.parseDouble(String.valueOf(bdBottom));
+        bottom5Percent.add(bottom5);
+    }
+
+    /**
+     * 運用なしのシナリオ
+     *
+     * @param i iか月目
+     * @param params 入力値
+     * @param monthElement 運用月数andイベント発生月
+     * @param noOperation 運用なしのシナリオ
+     */
+    private static void getNoOperation(int i, SimulationParams params, Map<String, Integer> monthElement, List<Double> noOperation) {
+        double totalReserveAmount = params.monthlySavings();
+        if (i == 0) {
+            noOperation.add(params.monthlySavings());
+        } else {
+            totalReserveAmount += params.monthlySavings();
+            if (i == monthElement.get("monthOfLifeEvent1")) { // イベント①発生
+                if (totalReserveAmount <= 1800) {
+                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds1());
+                } else {
+                    noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds1());
+                }
+            } else if (i == monthElement.get("monthOfLifeEvent2")) {
+                if (totalReserveAmount <= 1800) {
+                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
+                } else {
+                    noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds2());
+                }
+            } else if (i == monthElement.get("monthOfLifeEvent3")) {
+                if (totalReserveAmount <= 1800) {
+                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds3());
+                } else {
+                    noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds3());
+                }
+            } else if (i == monthElement.get("monthOfLifeEvent4")) {
+                if (totalReserveAmount <= 1800) {
+                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds4());
+                } else {
+                    noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds4());
+                }
+            } else if (i == monthElement.get("monthOfLifeEvent5")) {
+                if (totalReserveAmount <= 1800) {
+                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings() - params.lifeEventParams().requiredFunds5());
+                } else {
+                    noOperation.add(noOperation.get(i - 1) - params.lifeEventParams().requiredFunds5());
+                }
+            } else {
+                if (totalReserveAmount <= 1800) {
+                    noOperation.add(noOperation.get(i - 1) + params.monthlySavings());
+                } else {
+                    noOperation.add(noOperation.get(i - 1));
+                }
+            }
+        }
+    }
+
+    /**
+     * 運用月数と年齢の対応リストを返す
+     *
+     * @param params 入力値
+     * @return 運用月数と年齢の対応リスト
+     */
     public static List<String> getAgeCountList(SimulationParams params) {
         List<String> ageCountList = new ArrayList<>();
         int monthCount = (65 - params.startAge()) * 12; // 運用月数
@@ -175,6 +252,12 @@ public class Simulation {
         return ageCountList;
     }
 
+    /**
+     * 縦軸の最大値を返す
+     *
+     * @param valuationData グラフの値
+     * @return 縦軸の最大値
+     */
     public static double getSuggestedMax(List<List<Double>> valuationData) {
         double suggestedMax = 0;
         for (List<Double> data : valuationData) {
@@ -189,6 +272,12 @@ public class Simulation {
         return suggestedMax;
     }
 
+    /**
+     * 目盛り線の幅を返す
+     *
+     * @param suggestedMax 縦軸の最大値
+     * @return 目盛り線の幅
+     */
     public static int getStepSize(double suggestedMax) {
         int stepSize;
         if (suggestedMax < 1000) {
@@ -219,6 +308,12 @@ public class Simulation {
         return stepSize;
     }
 
+    /**
+     * 小数第3位を四捨五入
+     *
+     * @param num 評価額
+     * @return 四捨五入後の値
+     */
     private static BigDecimal getRoundingOffNum(double num) {
         BigDecimal bdNum = new BigDecimal(num);
         return bdNum.setScale(2, RoundingMode.HALF_UP);
