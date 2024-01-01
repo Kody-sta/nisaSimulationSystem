@@ -44,10 +44,12 @@ public class HomeController {
                 int i = 0;
                 for (List<Double> data : valuationData) {
                     switch (i) {
-                        case 0 -> model.addAttribute("top5Percent", data);
-                        case 1 -> model.addAttribute("expectedAverage", data);
-                        case 2 -> model.addAttribute("bottom5Percent", data);
-                        case 3 -> model.addAttribute("noOperation", data);
+                        case 0 -> model.addAttribute("top10Percent", data);
+                        case 1 -> model.addAttribute("top30Percent", data);
+                        case 2 -> model.addAttribute("expectedAverage", data);
+                        case 3 -> model.addAttribute("bottom30Percent", data);
+                        case 4 -> model.addAttribute("bottom10Percent", data);
+                        case 5 -> model.addAttribute("noOperation", data);
                     }
                     i++;
                 }
@@ -55,17 +57,17 @@ public class HomeController {
                 model.addAttribute("suggestedMax", suggestedMax);
                 model.addAttribute("stepSize", stepSize);
             } else {
-//            System.out.println(params);
                 model.addAttribute("params", params);
                 valuationData = Simulation.getValuationData(params);
                 int i = 0;
                 for (List<Double> data : valuationData) {
-//                System.out.println(data);
                     switch (i) {
-                        case 0 -> model.addAttribute("top5Percent", data);
-                        case 1 -> model.addAttribute("expectedAverage", data);
-                        case 2 -> model.addAttribute("bottom5Percent", data);
-                        case 3 -> model.addAttribute("noOperation", data);
+                        case 0 -> model.addAttribute("top30Percent", data);
+                        case 1 -> model.addAttribute("median", data);
+                        case 2 -> model.addAttribute("expectedAverage", data);
+                        case 3 -> model.addAttribute("bottom30Percent", data);
+                        case 4 -> model.addAttribute("bottom10Percent", data);
+                        case 5 -> model.addAttribute("noOperation", data);
                     }
                     i++;
                 }
@@ -139,7 +141,6 @@ public class HomeController {
             }
 
             lifeEventParams = new lifeEventParams(lifeEvent1, lifeEventAge1, requiredFunds1, lifeEvent2, lifeEventAge2, requiredFunds2, lifeEvent3, lifeEventAge3, requiredFunds3, lifeEvent4, lifeEventAge4, requiredFunds4, lifeEvent5, lifeEventAge5, requiredFunds5);
-//            System.out.println(lifeEventParams);
             params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams);
             lifeEventValidMessage = new lifeEventValidation(); // バリデーションの初期化
             validMessage = new Validation(); // バリデーションの初期化

@@ -30,12 +30,10 @@ public class Simulation {
         // N回分のシナリオ作成
         List<List<Double>> simuArr = new ArrayList<>();
         createScenario(params, simuArr, monthElement);
-//        System.out.println(simuArr);
 
         // VaRのシナリオ作成
         List<List<Double>> VaR = new ArrayList<>();
-        VaR = createVaR(params, simuArr, VaR, monthElement);
-//        System.out.println(VaR);
+        createVaR(params, simuArr, VaR, monthElement);
 
         return VaR;
     }
@@ -110,12 +108,13 @@ public class Simulation {
      * @param simuArr シミュレーション回数分のシナリオ
      * @param VaR 不確実性のシナリオ
      * @param monthElement 運用月数andイベント発生月
-     * @return 上位30%、予想平均、下位30％、下位10%、運用なしのVaR
      */
-    private static List<List<Double>> createVaR(SimulationParams params, List<List<Double>> simuArr, List<List<Double>> VaR, Map<String, Integer> monthElement) {
-        List<Double> top5Percent = new ArrayList<>();
+    private static void createVaR(SimulationParams params, List<List<Double>> simuArr, List<List<Double>> VaR, Map<String, Integer> monthElement) {
+        List<Double> top30Percent = new ArrayList<>();
+        List<Double> median = new ArrayList<>();
         List<Double> expectedAverage = new ArrayList<>();
-        List<Double> bottom5Percent = new ArrayList<>();
+        List<Double> bottom30Percent = new ArrayList<>();
+        List<Double> bottom10Percent = new ArrayList<>();
         List<Double> noOperation = new ArrayList<>();
 
         for (int i = 0; i < monthElement.get("monthCount"); i++) {
@@ -128,19 +127,19 @@ public class Simulation {
             // 予想平均
             getExpectedAverage(monthlyValue, expectedAverage);
 
-            // 上位5％、下位5％
-            getVaR(monthlyValue, top5Percent, bottom5Percent);
+            // 上位30％、中央値、下位10％、下位30％
+            getVaR(monthlyValue, top30Percent, median, bottom30Percent, bottom10Percent);
 
             // 運用なし
             getNoOperation(i, params, monthElement, noOperation);
         }
 
-        VaR.add(top5Percent);
+        VaR.add(top30Percent);
+        VaR.add(median);
         VaR.add(expectedAverage);
-        VaR.add(bottom5Percent);
+        VaR.add(bottom30Percent);
+        VaR.add(bottom10Percent);
         VaR.add(noOperation);
-
-        return VaR;
     }
 
     /**
@@ -160,21 +159,31 @@ public class Simulation {
     }
 
     /**
-     * 上位5％。、下位5％のシナリオ
+     * 上位30％、中央値、下位10％、下位30shoのシナリオ
      *
      * @param monthlyValue シミュレーション回数分のiか月目のリスト
-     * @param top5Percent 上位5％のシナリオ
-     * @param bottom5Percent 下位5％のシナリオ
+     * @param top30Percent 上位30％のシナリオ
+     * @param median 中央値シナリオ
+     * @param bottom30Percent 下位30％のシナリオ
+     * @param bottom10Percent 下位10％のシナリオ
      */
-    private static void getVaR(List<Double> monthlyValue, List<Double> top5Percent, List<Double> bottom5Percent) {
+    private static void getVaR(List<Double> monthlyValue, List<Double> top30Percent, List<Double> median, List<Double> bottom30Percent, List<Double> bottom10Percent) {
         Collections.sort(monthlyValue);
-        BigDecimal bdTop = getRoundingOffNum(monthlyValue.get(simuNum - (simuNum / 20)));
-        double top5 = Double.parseDouble(String.valueOf(bdTop));
-        top5Percent.add(top5);
+        BigDecimal bdTop30 = getRoundingOffNum(monthlyValue.get(simuNum / 10 * 7));
+        double top30 = Double.parseDouble(String.valueOf(bdTop30));
+        top30Percent.add(top30);
 
-        BigDecimal bdBottom = getRoundingOffNum(monthlyValue.get(simuNum / 20));
-        double bottom5 = Double.parseDouble(String.valueOf(bdBottom));
-        bottom5Percent.add(bottom5);
+        BigDecimal bdMedian = getRoundingOffNum(monthlyValue.get(simuNum / 10 * 5));
+        double mdn = Double.parseDouble(String.valueOf(bdMedian));
+        median.add(mdn);
+
+        BigDecimal bdBottom30 = getRoundingOffNum(monthlyValue.get(simuNum / 10 * 3));
+        double bottom30 = Double.parseDouble(String.valueOf(bdBottom30));
+        bottom30Percent.add(bottom30);
+
+        BigDecimal bdBottom10 = getRoundingOffNum(monthlyValue.get(simuNum / 10));
+        double bottom10 = Double.parseDouble(String.valueOf(bdBottom10));
+        bottom10Percent.add(bottom10);
     }
 
     /**

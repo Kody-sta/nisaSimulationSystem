@@ -56,71 +56,71 @@
                             </tr>
                             <tr class="lifePlan">
                                 <th><label>ライフイベント①</label></th>
-                                <td><input name="lifeEvent1" class="margin-right" type="text" /></td>
+                                <td><input name="lifeEvent1" class="margin-right" placeholder="例)結婚" type="text" /></td>
                                 <th><label>年齢</label></th>
                                 <td>
-                                    <input name="lifeEventAge1" class="margin-right" type="text" />
+                                    <input name="lifeEventAge1" class="margin-right" placeholder="28" type="text" />
                                     <div th:text="${lifeEventAge1Error}" class="validColor"></div>
                                 </td>
                                 <th><label>必要資金(万)</label></th>
                                 <td>
-                                    <input name="requiredFunds1" type="text" />
+                                    <input name="requiredFunds1" placeholder="100" type="text" />
                                     <div th:text="${requiredFunds1Error}" class="validColor"></div>
                                 </td>
                             </tr>
                             <tr class="lifePlan">
                                 <th><label>ライフイベント②</label></th>
-                                <td><input name="lifeEvent2" class="margin-right" type="text" /></td>
+                                <td><input name="lifeEvent2" class="margin-right" placeholder="例)新車" type="text" /></td>
                                 <th><label>年齢</label></th>
                                 <td>
-                                    <input name="lifeEventAge2" class="margin-right" type="text" />
+                                    <input name="lifeEventAge2" class="margin-right" placeholder="30" type="text" />
                                     <div th:text="${lifeEventAge2Error}" class="validColor"></div>
                                 </td>
                                 <th><label>必要資金(万)</label></th>
                                 <td>
-                                    <input name="requiredFunds2" type="text" />
+                                    <input name="requiredFunds2" placeholder="200" type="text" />
                                     <div th:text="${requiredFunds2Error}" class="validColor"></div>
                                 </td>
                             </tr>
                             <tr class="lifePlan">
                                 <th><label>ライフイベント③</label></th>
-                                <td><input name="lifeEvent3" class="margin-right" type="text" /></td>
+                                <td><input name="lifeEvent3" class="margin-right" placeholder="例)住宅頭金" type="text" /></td>
                                 <th><label>年齢</label></th>
                                 <td>
-                                    <input name="lifeEventAge3" class="margin-right" type="text" />
+                                    <input name="lifeEventAge3" class="margin-right" placeholder="40" type="text" />
                                     <div th:text="${lifeEventAge3Error}" class="validColor"></div>
                                 </td>
                                 <th><label>必要資金(万)</label></th>
                                 <td>
-                                    <input name="requiredFunds3" type="text" />
+                                    <input name="requiredFunds3" placeholder="1300" type="text" />
                                     <div th:text="${requiredFunds3Error}" class="validColor"></div>
                                 </td>
                             </tr>
                             <tr class="lifePlan">
                                 <th><label>ライフイベント④</label></th>
-                                <td><input name="lifeEvent4" class="margin-right" type="text" /></td>
+                                <td><input name="lifeEvent4" class="margin-right" placeholder="例)教育費" type="text" /></td>
                                 <th><label>年齢</label></th>
                                 <td>
-                                    <input name="lifeEventAge4" class="margin-right" type="text" />
+                                    <input name="lifeEventAge4" class="margin-right" placeholder="45" type="text" />
                                     <div th:text="${lifeEventAge4Error}" class="validColor"></div>
                                 </td>
                                 <th><label>必要資金(万)</label></th>
                                 <td>
-                                    <input name="requiredFunds4" type="text" />
+                                    <input name="requiredFunds4" placeholder="1000" type="text" />
                                     <div th:text="${requiredFunds4Error}" class="validColor"></div>
                                 </td>
                             </tr>
                             <tr class="lifePlan">
                                 <th><label>ライフイベント⑤</label></th>
-                                <td><input name="lifeEvent5" class="margin-right" type="text" /></td>
+                                <td><input name="lifeEvent5" class="margin-right" placeholder="例)教育費" type="text" /></td>
                                 <th><label>年齢</label></th>
                                 <td>
-                                    <input name="lifeEventAge5" class="margin-right" type="text" />
+                                    <input name="lifeEventAge5" class="margin-right" placeholder="50" type="text" />
                                     <div th:text="${lifeEventAge5Error}" class="validColor"></div>
                                 </td>
                                 <th><label>必要資金(万)</label></th>
                                 <td>
-                                    <input name="requiredFunds5" type="text" />
+                                    <input name="requiredFunds5" placeholder="1000" type="text" />
                                     <div th:text="${requiredFunds5Error}" class="validColor"></div>
                                 </td>
                             </tr>
@@ -203,21 +203,33 @@
                   labels: /*[[${monthCountList}]]*/"monthCountList",
                   datasets: [
                     {
-                      label: '上位5%',
-                      data: /*[[${top5Percent}]]*/"top5Percent",
-                      borderColor: '#0099cc',
+                      label: '上位30%',
+                      data: /*[[${top30Percent}]]*/"top30Percent",
+                      borderColor: '#e14024',
                       backgroundColor: "rgba(0,0,0,0)"
                     },
                     {
-                      label: '予想平均',
-                      data: /*[[${expectedAverage}]]*/"expectedAverage",
+                      label: '中央値',
+                      data: /*[[${median}]]*/"median",
                       borderColor: '#f8b500',
                       backgroundColor: "rgba(0,0,0,0)"
                     },
+<!--                    {-->
+<!--                      label: '予想平均',-->
+<!--                      data: /*[[${expectedAverage}]]*/"expectedAverage",-->
+<!--                      borderColor: '#EE82EE',-->
+<!--                      backgroundColor: "rgba(0,0,0,0)"-->
+<!--                    },-->
                     {
-                      label: '下位5%',
-                      data: /*[[${bottom5Percent}]]*/"bottom5Percent",
-                      borderColor: '#e14024',
+                      label: '下位30%',
+                      data: /*[[${bottom30Percent}]]*/"bottom30Percent",
+                      borderColor: '#66FF33',
+                      backgroundColor: "rgba(0,0,0,0)"
+                    },
+                    {
+                      label: '下位10%',
+                      data: /*[[${bottom10Percent}]]*/"bottom10Percent",
+                      borderColor: '#0099cc',
                       backgroundColor: "rgba(0,0,0,0)"
                     },
                     {
