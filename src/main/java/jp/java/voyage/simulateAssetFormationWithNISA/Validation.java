@@ -12,7 +12,7 @@ public class Validation {
     public Validation() {
     }
 
-    public void typeValid(String expectedRateOfReturn, String volatility, String startAge, String monthlySavings, String initialValue, lifeEventStr lifeEventStr, lifeEventValidation lev) {
+    public void typeValid(String expectedRateOfReturn, String volatility, String startAge, String monthlySavings, String initialValue, lifeEventStr lifeEventStr, lifeEventValidation lev, advancedSettingStr advancedSettingStr, advancedSettingValidation asv) {
         Pattern pattern1 = Pattern.compile("^[+-]?[0-9]+$|^[+-]?[0-9]+\\.[0-9]+$"); // 整数or小数
         Pattern pattern2 = Pattern.compile("^[+-]?[0-9]+$"); // 整数
         Matcher matcher1 = pattern1.matcher(expectedRateOfReturn);
@@ -30,6 +30,8 @@ public class Validation {
         Matcher matcher13 = pattern1.matcher(lifeEventStr.requiredFunds4);
         Matcher matcher14 = pattern2.matcher(lifeEventStr.lifeEventAge5);
         Matcher matcher15 = pattern1.matcher(lifeEventStr.requiredFunds5);
+        Matcher matcher16 = pattern2.matcher(advancedSettingStr.requestAnnualChangeMoney);
+        Matcher matcher17 = pattern2.matcher(advancedSettingStr.requestEndingAge);
 
         if (!(matcher1.matches())) {
             this.expectedRateOfReturnError = "半角数字を入力";
@@ -75,6 +77,12 @@ public class Validation {
         }
         if (!(matcher15.matches()) && !(lifeEventStr.requiredFunds5.equals(""))) {
             lev.setRequiredFunds5Error("半角数字を入力");
+        }
+        if (!(matcher16.matches()) && !(advancedSettingStr.requestAnnualChangeMoney.equals(""))) {
+            asv.setAnnualChangeMoneyError("半角数字を入力");
+        }
+        if (!(matcher17.matches())&& !(advancedSettingStr.requestEndingAge.equals(""))) {
+            asv.setEndingAgeError("0～64を入力");
         }
     }
 

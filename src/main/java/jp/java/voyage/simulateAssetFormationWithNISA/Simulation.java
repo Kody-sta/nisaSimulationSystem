@@ -18,7 +18,11 @@ public class Simulation {
         // 運用月数、イベント発生月のマップ
         Map<String, Integer> monthElement = new HashMap<>() {
             {
-                put("monthCount", (65 - params.startAge()) * 12);
+                if (params.advancedSetting().endingAge() != 0) {
+                    put("monthCount", (params.advancedSetting().endingAge() - params.startAge()) * 12);
+                } else {
+                    put("monthCount", (65 - params.startAge()) * 12);
+                }
                 put("monthOfLifeEvent1", (params.lifeEventParams().lifeEventAge1() - params.startAge()) * 12);
                 put("monthOfLifeEvent2", (params.lifeEventParams().lifeEventAge2() - params.startAge()) * 12);
                 put("monthOfLifeEvent3", (params.lifeEventParams().lifeEventAge3() - params.startAge()) * 12);
@@ -54,44 +58,50 @@ public class Simulation {
         // N回シミュレーション
         for (int n = 0; n < simuNum; n++) {
             List<Double> scenario = new ArrayList<>();
-            double totalReserveAmount = params.monthlySavings();
+            double monthlySavings =  params.monthlySavings();
+            double totalReserveAmount = monthlySavings; // 積立額トータル(上限1800)
             scenario.add(params.initialValue() + params.monthlySavings()); // 積立1か月目
             for (int i = 1; i < monthElement.get("monthCount"); i++) {
                 double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0); // 増分
-                totalReserveAmount += params.monthlySavings();
+
+                // 年変化
+                if (params.advancedSetting().annualChangeMonth() != 0 && i % params.advancedSetting().annualChangeMonth() == 0) {
+                    monthlySavings += params.advancedSetting().annualChangeMoney();
+                }
+
                 if (i == monthElement.get("monthOfLifeEvent1")) { // イベント①発生
                     if (totalReserveAmount <= 1800) { // 積立上限判定
-                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds1());
+                        scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds1());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds1());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent2")) {
                     if (totalReserveAmount <= 1800) {
-                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds2());
+                        scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds2());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds2());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent3")) {
                     if (totalReserveAmount <= 1800) {
-                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds3());
+                        scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds3());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds3());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent4")) {
                     if (totalReserveAmount <= 1800) {
-                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds4());
+                        scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds4());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds4());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent5")) {
                     if (totalReserveAmount <= 1800) {
-                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings() - params.lifeEventParams().requiredFunds5());
+                        scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds5());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds5());
                     }
                 } else {
                     if (totalReserveAmount <= 1800) {
-                        scenario.add(scenario.get(i - 1) + delta + params.monthlySavings());
+                        scenario.add(scenario.get(i - 1) + delta + monthlySavings);
                     } else {
                         scenario.add(scenario.get(i - 1) + delta);
                     }
@@ -248,7 +258,15 @@ public class Simulation {
      */
     public static List<String> getAgeCountList(SimulationParams params) {
         List<String> ageCountList = new ArrayList<>();
-        int monthCount = (65 - params.startAge()) * 12; // 運用月数
+
+        // 運用月数
+        int monthCount;
+        if (params.advancedSetting().endingAge() != 0) {
+            monthCount =  (params.advancedSetting().endingAge() - params.startAge()) * 12;
+        } else {
+            monthCount = (65 - params.startAge()) * 12;
+        }
+
         int age = params.startAge();
         for (int i = 1; i < monthCount+1; i++) {
             if (i % 12 == 0) {
@@ -256,7 +274,6 @@ public class Simulation {
             }
             ageCountList.add(age + "歳");
         }
-//        System.out.println(monthCountList);
 
         return ageCountList;
     }
@@ -276,8 +293,6 @@ public class Simulation {
                 }
             }
         }
-//        System.out.println(suggestedMax);
-
         return suggestedMax;
     }
 
@@ -312,8 +327,6 @@ public class Simulation {
         } else {
             stepSize = 1000000;
         }
-//        System.out.println(stepSize);
-
         return stepSize;
     }
 

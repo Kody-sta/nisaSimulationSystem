@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>新NISA資産形成シミュレーション</title>
         <link rel="stylesheet" th:href="@{/jquery-ui.min.css}">
-        <link rel="stylesheet" th:href="@{/home.css}">
+        <link rel="stylesheet" th:href="@{/home2.css}">
         <script src="http://code.jquery.com/jquery.js"></script>
         <script type="text/javascript" th:src="@{/jquery-ui.min.js}"></script>
     </head>
@@ -53,6 +53,9 @@
                                     <input name="initialValue" type="text" />
                                     <div th:text="${initialValueError}" class="validColor"></div>
                                 </td>
+                            </tr>
+                            <tr>
+                                <th colspan="6"><button type="button" id="lifePlanButton">＋ライフイベントを追加</button></th>
                             </tr>
                             <tr class="lifePlan">
                                 <th><label>ライフイベント①</label></th>
@@ -125,7 +128,33 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th colspan="6"><button type="button" id="lifePlanButton">＋ライフイベントを追加</button></th>
+                                <th colspan="6"><button type="button" id="advancedSettingButton">＋詳細設定</button></th>
+                            </tr>
+                            <tr class="advancedSetting">
+                                <th><label>年変化</label></th>
+                                <td colspan="5">
+                                    <span>つみたて月額を</span>
+                                    <label class="annualChangePeriod">
+                                        <select name="annualChangePeriod">
+                                            <option></option>
+                                            <option>6か月</option>
+                                            <option>1年</option>
+                                            <option>3年</option>
+                                            <option>5年</option>
+                                        </select>
+                                    </label>
+                                    <span>ごとに</span>
+                                    <input name="annualChangeMoney" type="text" />
+                                    <span>万円増やす</span>
+                                    <div th:text="${annualChangeMoneyError}" class="validColor"></div>
+                                </td>
+                            </tr>
+                            <tr class="advancedSetting">
+                                <th><label>シミュレーション<br>終了年齢</label></th>
+                                <td>
+                                    <input name="endingAge" type="text" />
+                                    <div th:text="${endingAgeError}" class="validColor"></div>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -172,19 +201,31 @@
                              </tr>
                          </tbody>
                          <tbody>
-                         <tr th:each="params : ${params}">
-                             <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge3 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge3} + '歳で' + ${params.lifeEventParams.lifeEvent3} + 'のため' + ${params.lifeEventParams.requiredFunds3} + '万円使用'"></td>
-                         </tr>
+                             <tr th:each="params : ${params}">
+                                 <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge3 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge3} + '歳で' + ${params.lifeEventParams.lifeEvent3} + 'のため' + ${params.lifeEventParams.requiredFunds3} + '万円使用'"></td>
+                             </tr>
                          </tbody>
                          <tbody>
-                         <tr th:each="params : ${params}">
-                             <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge4 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge4} + '歳で' + ${params.lifeEventParams.lifeEvent4} + 'のため' + ${params.lifeEventParams.requiredFunds4} + '万円使用'"></td>
-                         </tr>
+                             <tr th:each="params : ${params}">
+                                 <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge4 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge4} + '歳で' + ${params.lifeEventParams.lifeEvent4} + 'のため' + ${params.lifeEventParams.requiredFunds4} + '万円使用'"></td>
+                             </tr>
                          </tbody>
                          <tbody>
-                         <tr th:each="params : ${params}">
-                             <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge5 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge5} + '歳で' + ${params.lifeEventParams.lifeEvent5} + 'のため' + ${params.lifeEventParams.requiredFunds5} + '万円使用'"></td>
-                         </tr>
+                             <tr th:each="params : ${params}">
+                                 <td colspan="5" th:if="${params.lifeEventParams.lifeEventAge5 != 0}" th:text="'・' + ${params.lifeEventParams.lifeEventAge5} + '歳で' + ${params.lifeEventParams.lifeEvent5} + 'のため' + ${params.lifeEventParams.requiredFunds5} + '万円使用'"></td>
+                             </tr>
+                         </tbody>
+                         <thead>
+                             <tr>
+                                 <th colspan="3">年変化</th>
+                                 <th colspan="2">シミュレーション終了年齢</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr th:each="params : ${params}">
+                                 <td colspan="3" th:if="${params.advancedSetting.annualChangeMonth != 0}" th:text="'つみたて月額を' + ${params.advancedSetting.annualChangeMonth} + 'か月ごとに' + ${params.advancedSetting.annualChangeMoney} + '万円増やす'"></td>
+                                 <td colspan="2" th:if="${params.advancedSetting.endingAge != 0}" th:text="${params.advancedSetting.endingAge} + '歳'"></td>
+                             </tr>
                          </tbody>
                       </table>
                 </div>
@@ -364,6 +405,11 @@
             // ライフプランの表示非表示
             $("#lifePlanButton").click(function(){
                 $(".lifePlan").toggleClass("display");
+            });
+
+            // 詳細設定の表示非表示
+            $("#advancedSettingButton").click(function(){
+                $(".advancedSetting").toggleClass("display");
             });
 
             });

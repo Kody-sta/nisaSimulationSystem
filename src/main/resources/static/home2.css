@@ -99,7 +99,7 @@ h1 {
 .validColor {
     color: #FF0000;
 }
-#productSelectionButton, #lifePlanButton {
+#productSelectionButton, #lifePlanButton, #advancedSettingButton {
     font-size: 0.9em;
     background-color:#2ABCA7;
     padding: 5px 5px;
@@ -113,9 +113,56 @@ h1 {
     color:#fff;
     transition: .5s;
 }
-#productSelectionButton:hover, #lifePlanButton:hover {
+#productSelectionButton:hover, #lifePlanButton:hover, #advancedSettingButton:hover {
     color:#2ABCA7;
     background:#fff;
+}
+.advancedSetting {
+    font-size: 1em;
+    font-family: 'Source Sans Pro',arial,sans-serif;
+}
+.annualChangePeriod {
+    position: relative;
+}
+.annualChangePeriod::before,
+.annualChangePeriod::after {
+    position: absolute;
+    content: '';
+    pointer-events: none;
+}
+.annualChangePeriod::before {
+    display: inline-block;
+    right: 4.5px;
+    margin-top: 12.5px;
+    width: 2.2em;
+    height: 2.2em;
+    border-radius: 0 5px 5px 0;
+    background-color: #2ABCA7;
+}
+.annualChangePeriod::after {
+    position: absolute;
+    top: 50%;
+    right: 1.4em;
+    transform: translate(50%, -50%) rotate(45deg);
+    width: 6px;
+    height: 6px;
+    border-bottom: 3px solid #fff;
+    border-right: 3px solid #fff;
+}
+.annualChangePeriod select {
+    appearance: none;
+    min-width: 100px;
+    height: 2.2em;
+    padding: .4em 3.6em .4em .8em;
+    border: none;
+    border-radius: 5px;
+    background-color: #d7d7d7;
+    color: #333;
+    font-size: 1em;
+    cursor: pointer;
+}
+.annualChangePeriod select:focus {
+    outline: 2px solid #2ABCA7;
 }
 
 /* 一覧表示 */
@@ -169,13 +216,18 @@ h1 {
     transform: scale(1.5)
 }
 
-/* ライフプランの表示/非表示 */
+/* ライフプラン、詳細設定の表示/非表示 */
 #lifePlanButton {
-    margin: 15px auto;
+    margin: 15px auto 5px auto;
 }
-.lifePlan {
+.lifePlan, .advancedSetting {
     display: none;
 }
 .display {
     display: table-row;
+}
+
+#advancedSettingButton {
+    margin: auto;
+    width:170px;
 }

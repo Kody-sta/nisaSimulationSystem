@@ -14,7 +14,8 @@ import java.util.*;
 @Controller
 public class HomeController {
     record lifeEventParams(String lifeEvent1, int lifeEventAge1, double requiredFunds1, String lifeEvent2, int lifeEventAge2, double requiredFunds2, String lifeEvent3, int lifeEventAge3, double requiredFunds3, String lifeEvent4, int lifeEventAge4, double requiredFunds4, String lifeEvent5, int lifeEventAge5, double requiredFunds5) {}
-    record SimulationParams(String id, double expectedRateOfReturn, double volatility, int startAge, double monthlySavings, double initialValue, lifeEventParams lifeEventParams) {}
+    record advancedSetting(int annualChangeMonth, int annualChangeMoney, int endingAge) {}
+    record SimulationParams(String id, double expectedRateOfReturn, double volatility, int startAge, double monthlySavings, double initialValue, lifeEventParams lifeEventParams, advancedSetting advancedSetting) {}
     private String id;
     private double expectedRateOfReturn;
     private double volatility;
@@ -22,8 +23,10 @@ public class HomeController {
     private double monthlySavings;
     private double initialValue;
     private lifeEventParams lifeEventParams;
-    private SimulationParams params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams);
+    private advancedSetting advancedSetting;
+    private SimulationParams params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams, advancedSetting);
     private lifeEventValidation lifeEventValidMessage = new lifeEventValidation();
+    private advancedSettingValidation advancedSettingValidMessage = new advancedSettingValidation();
     private Validation validMessage = new Validation();
     boolean validateFlg = false;
     List<List<Double>> valuationData;
@@ -94,6 +97,8 @@ public class HomeController {
         model.addAttribute("requiredFunds4Error", lifeEventValidMessage.requiredFunds4Error);
         model.addAttribute("lifeEventAge5Error", lifeEventValidMessage.lifeEventAge5Error);
         model.addAttribute("requiredFunds5Error", lifeEventValidMessage.requiredFunds5Error);
+        model.addAttribute("annualChangeMoneyError", advancedSettingValidMessage.annualChangeMoneyError);
+        model.addAttribute("endingAgeError", advancedSettingValidMessage.endingAgeError);
 
         return "home";
     }
@@ -106,19 +111,27 @@ public class HomeController {
                    @RequestParam("lifeEvent2") String lifeEvent2, @RequestParam("lifeEventAge2") String requestLifeEventAge2, @RequestParam("requiredFunds2") String requestRequiredFunds2,
                    @RequestParam("lifeEvent3") String lifeEvent3, @RequestParam("lifeEventAge3") String requestLifeEventAge3, @RequestParam("requiredFunds3") String requestRequiredFunds3,
                    @RequestParam("lifeEvent4") String lifeEvent4, @RequestParam("lifeEventAge4") String requestLifeEventAge4, @RequestParam("requiredFunds4") String requestRequiredFunds4,
-                   @RequestParam("lifeEvent5") String lifeEvent5, @RequestParam("lifeEventAge5") String requestLifeEventAge5, @RequestParam("requiredFunds5") String requestRequiredFunds5) {
+                   @RequestParam("lifeEvent5") String lifeEvent5, @RequestParam("lifeEventAge5") String requestLifeEventAge5, @RequestParam("requiredFunds5") String requestRequiredFunds5,
+                   @RequestParam("annualChangePeriod") String annualChangePeriod, @RequestParam("annualChangeMoney") String requestAnnualChangeMoney,
+                   @RequestParam("endingAge") String requestEndingAge) {
         String id = UUID.randomUUID().toString().substring(0, 8);
         try {
+            // 必須項目
             double expectedRateOfReturn = Double.parseDouble(requestExpectedRateOfReturn);
             double volatility = Double.parseDouble(requestVolatility);
             int startAge = Integer.parseInt(requestStartAge);
             double monthlySavings = Double.parseDouble(requestMonthlySavings);
             double initialValue = Double.parseDouble(requestInitialValue);
+
+            // ライフプラン
             int lifeEventAge1 = 0; double requiredFunds1 = 0;
             int lifeEventAge2 = 0; double requiredFunds2 = 0;
             int lifeEventAge3 = 0; double requiredFunds3 = 0;
             int lifeEventAge4 = 0; double requiredFunds4 = 0;
             int lifeEventAge5 = 0; double requiredFunds5 = 0;
+            int annualChangeMonth = 0; int annualChangeMoney = 0;
+            int endingAge = 0;
+
             if (!requestLifeEventAge1.equals("") && !requestRequiredFunds1.equals("")) {
                 lifeEventAge1 = Integer.parseInt(requestLifeEventAge1);
                 requiredFunds1 = Double.parseDouble(requestRequiredFunds1);
@@ -140,18 +153,39 @@ public class HomeController {
                 requiredFunds5 = Double.parseDouble(requestRequiredFunds5);
             }
 
+            // 詳細設定
+            if (!annualChangePeriod.equals("")) {
+                annualChangeMonth = getAnnualChangeMonth(annualChangePeriod);
+                annualChangeMoney = Integer.parseInt(requestAnnualChangeMoney);
+            }
+            if (!requestEndingAge.equals("")) {
+                endingAge = Integer.parseInt(requestEndingAge);
+            }
+
+            // 値のセット
             lifeEventParams = new lifeEventParams(lifeEvent1, lifeEventAge1, requiredFunds1, lifeEvent2, lifeEventAge2, requiredFunds2, lifeEvent3, lifeEventAge3, requiredFunds3, lifeEvent4, lifeEventAge4, requiredFunds4, lifeEvent5, lifeEventAge5, requiredFunds5);
-            params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams);
-            lifeEventValidMessage = new lifeEventValidation(); // バリデーションの初期化
-            validMessage = new Validation(); // バリデーションの初期化
+            advancedSetting = new advancedSetting(annualChangeMonth, annualChangeMoney, endingAge);
+            params = new SimulationParams(id, expectedRateOfReturn, volatility, startAge, monthlySavings, initialValue, lifeEventParams, advancedSetting);
+
+            // バリデーションの初期化
+            lifeEventValidMessage = new lifeEventValidation();
+            advancedSettingValidMessage = new advancedSettingValidation();
+            validMessage = new Validation();
             validateFlg = false;
+
             return "redirect:/list";
         } catch (Exception e) {
+            // requestParamのセットとバリデーションの初期化
             lifeEventStr lifeEventStr = new lifeEventStr(requestLifeEventAge1, requestRequiredFunds1, requestLifeEventAge2, requestRequiredFunds2, requestLifeEventAge3, requestRequiredFunds3, requestLifeEventAge4, requestRequiredFunds4, requestLifeEventAge5, requestRequiredFunds5);
             lifeEventValidMessage = new lifeEventValidation();
+            advancedSettingStr advancedSettingStr = new advancedSettingStr(requestAnnualChangeMoney, requestEndingAge);
+            advancedSettingValidMessage = new advancedSettingValidation();
             validMessage = new Validation();
-            validMessage.typeValid(requestExpectedRateOfReturn, requestVolatility, requestStartAge, requestMonthlySavings, requestInitialValue, lifeEventStr, lifeEventValidMessage);
+
+            // エラー文言のセット
+            validMessage.typeValid(requestExpectedRateOfReturn, requestVolatility, requestStartAge, requestMonthlySavings, requestInitialValue, lifeEventStr, lifeEventValidMessage, advancedSettingStr, advancedSettingValidMessage);
             validateFlg = true;
+
             return "redirect:/list";
         }
     }
@@ -160,5 +194,15 @@ public class HomeController {
     public ModelAndView getHome(ModelAndView mav) {
         mav.setViewName("home");
         return mav;
+    }
+
+    private static int getAnnualChangeMonth(String annualChangePeriod) {
+        return switch (annualChangePeriod) {
+            case "6か月" -> 6;
+            case "1年" -> 12;
+            case "3年" -> 3 * 12;
+            case "5年" -> 5 * 12;
+            default -> 0;
+        };
     }
 }

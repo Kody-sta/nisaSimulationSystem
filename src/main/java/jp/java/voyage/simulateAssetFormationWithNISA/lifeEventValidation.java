@@ -30,6 +30,7 @@ public class lifeEventValidation {
     public void setRequiredFunds2Error(String requiredFunds2Error) {
         this.requiredFunds2Error = requiredFunds2Error;
     }
+
     public void setLifeEventAge3Error(String lifeEventAge3Error) {
         this.lifeEventAge3Error = lifeEventAge3Error;
     }
@@ -37,6 +38,7 @@ public class lifeEventValidation {
     public void setRequiredFunds3Error(String requiredFunds3Error) {
         this.requiredFunds3Error = requiredFunds3Error;
     }
+
     public void setLifeEventAge4Error(String lifeEventAge4Error) {
         this.lifeEventAge4Error = lifeEventAge4Error;
     }
@@ -44,6 +46,7 @@ public class lifeEventValidation {
     public void setRequiredFunds4Error(String requiredFunds4Error) {
         this.requiredFunds4Error = requiredFunds4Error;
     }
+
     public void setLifeEventAge5Error(String lifeEventAge5Error) {
         this.lifeEventAge5Error = lifeEventAge5Error;
     }
