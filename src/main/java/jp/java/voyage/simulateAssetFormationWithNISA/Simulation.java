@@ -122,7 +122,7 @@ public class Simulation {
     private static void createVaR(SimulationParams params, List<List<Double>> simuArr, List<List<Double>> VaR, Map<String, Integer> monthElement) {
         List<Double> top30Percent = new ArrayList<>();
         List<Double> median = new ArrayList<>();
-        List<Double> expectedAverage = new ArrayList<>();
+//        List<Double> expectedAverage = new ArrayList<>();
         List<Double> bottom30Percent = new ArrayList<>();
         List<Double> bottom10Percent = new ArrayList<>();
         List<Double> noOperation = new ArrayList<>();
@@ -135,7 +135,7 @@ public class Simulation {
             }
 
             // 予想平均
-            getExpectedAverage(monthlyValue, expectedAverage);
+//            getExpectedAverage(monthlyValue, expectedAverage);
 
             // 上位30％、中央値、下位10％、下位30％
             getVaR(monthlyValue, top30Percent, median, bottom30Percent, bottom10Percent);
@@ -146,7 +146,7 @@ public class Simulation {
 
         VaR.add(top30Percent);
         VaR.add(median);
-        VaR.add(expectedAverage);
+//        VaR.add(expectedAverage);
         VaR.add(bottom30Percent);
         VaR.add(bottom10Percent);
         VaR.add(noOperation);
@@ -293,6 +293,7 @@ public class Simulation {
                 }
             }
         }
+        System.out.println(suggestedMax);
         return suggestedMax;
     }
 

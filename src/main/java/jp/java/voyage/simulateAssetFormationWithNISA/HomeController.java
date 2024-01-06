@@ -49,10 +49,10 @@ public class HomeController {
                     switch (i) {
                         case 0 -> model.addAttribute("top10Percent", data);
                         case 1 -> model.addAttribute("top30Percent", data);
-                        case 2 -> model.addAttribute("expectedAverage", data);
-                        case 3 -> model.addAttribute("bottom30Percent", data);
-                        case 4 -> model.addAttribute("bottom10Percent", data);
-                        case 5 -> model.addAttribute("noOperation", data);
+//                        case 2 -> model.addAttribute("expectedAverage", data);
+                        case 2 -> model.addAttribute("bottom30Percent", data);
+                        case 3 -> model.addAttribute("bottom10Percent", data);
+                        case 4 -> model.addAttribute("noOperation", data);
                     }
                     i++;
                 }
@@ -67,10 +67,10 @@ public class HomeController {
                     switch (i) {
                         case 0 -> model.addAttribute("top30Percent", data);
                         case 1 -> model.addAttribute("median", data);
-                        case 2 -> model.addAttribute("expectedAverage", data);
-                        case 3 -> model.addAttribute("bottom30Percent", data);
-                        case 4 -> model.addAttribute("bottom10Percent", data);
-                        case 5 -> model.addAttribute("noOperation", data);
+//                        case 2 -> model.addAttribute("expectedAverage", data);
+                        case 2 -> model.addAttribute("bottom30Percent", data);
+                        case 3 -> model.addAttribute("bottom10Percent", data);
+                        case 4 -> model.addAttribute("noOperation", data);
                     }
                     i++;
                 }
