@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>新NISA資産形成シミュレーション</title>
         <link rel="stylesheet" th:href="@{/jquery-ui.min.css}">
-        <link rel="stylesheet" th:href="@{/home2.css}">
+        <link rel="stylesheet" th:href="@{/home.css}">
         <script src="http://code.jquery.com/jquery.js"></script>
         <script type="text/javascript" th:src="@{/jquery-ui.min.js}"></script>
     </head>
@@ -28,9 +28,10 @@
                                     <input name="volatility" id="volatility" type="text" />
                                     <div th:text="${volatilityError}" class="validColor"></div>
                                 </td>
-                                <th>
+                                <th colspan="2">
                                     <!-- ボタン表示 -->
-                                    <button type="button" id="productSelectionButton">商品を選択</button>
+                                    <button type="button" id="productSelectionButton" class="left">商品を選択</button>
+                                    <div id="productName" class="left fontSize"></div>
                                     <!-- ダイアログ部分 -->
                                     <div id="dialog">
                                         <div th:include="dialog :: productSelection_body"></div>
@@ -314,78 +315,103 @@
                         if (productName === 'sbi_allCountry') {
                             $("#expectedRateOfReturn").val(9.999);
                             $("#volatility").val(19.916);
+                            $("#productName").html('ＳＢＩ・全世界株式インデックスファンド');
                         } else if (productName === 'one_developedCountry') {
                             $("#expectedRateOfReturn").val(12.327);
                             $("#volatility").val(21.455);
+                            $("#productName").html('たわらノーロード 先進国株式');
                         } else if (productName === 'one_allCountry') {
                             $("#expectedRateOfReturn").val(11.172);
                             $("#volatility").val(18.341);
+                            $("#productName").html('たわらノーロード 全世界株式');
                         } else if (productName === 'daiwa_s&p500') {
                             $("#expectedRateOfReturn").val(12.360);
                             $("#volatility").val(21.350);
+                            $("#productName").html('iFree S&P500インデックス');
                         } else if (productName === 'daiwa_emergingCountry') {
                             $("#expectedRateOfReturn").val(7.237);
                             $("#volatility").val(16.471);
+                            $("#productName").html('iFree 新興国株式インデックス');
                         } else if (productName === 'nissei_nikkeiAverage') {
                             $("#expectedRateOfReturn").val(9.165);
                             $("#volatility").val(22.358);
+                            $("#productName").html('＜購入・換金手数料なし＞ニッセイ日経平均<br>インデックスファンド');
                         } else if (productName === 'nissei_foreignStocks') {
                             $("#expectedRateOfReturn").val(11.027);
                             $("#volatility").val(19.450);
+                            $("#productName").html('＜購入・換金手数料なし＞ニッセイ外国株式<br>インデックスファンド');
                         } else if (productName === 'nissei_nikkei225') {
                             $("#expectedRateOfReturn").val(8.777);
                             $("#volatility").val(23.106);
+                            $("#productName").html('ニッセイ日経２２５インデックスファンド');
                         } else if (productName === 'mitsui_japaneseStocks') {
                             $("#expectedRateOfReturn").val(6.979);
                             $("#volatility").val(21.092);
+                            $("#productName").html('三井住友・ＤＣつみたてＮＩＳＡ・日本株<br>インデックスファンド');
                         } else if (productName === 'ufj_nikkeiAverage') {
                             $("#expectedRateOfReturn").val(9.178);
                             $("#volatility").val(22.388);
+                            $("#productName").html('eMAXIS Slim 国内株式(日経平均)');
                         } else if (productName === 'ufj_topix') {
                             $("#expectedRateOfReturn").val(6.412);
                             $("#volatility").val(21.243);
+                            $("#productName").html('eMAXIS Slim 国内株式(TOPIX)');
                         } else if (productName === 'ufj_s&p500') {
                             $("#expectedRateOfReturn").val(12.432);
                             $("#volatility").val(21.325);
+                            $("#productName").html('eMAXIS Slim 米国株式(S&P500)');
                         } else if (productName === 'ufj_emergingCountryStocks') {
                             $("#expectedRateOfReturn").val(6.146);
                             $("#volatility").val(17.163);
+                            $("#productName").html('eMAXIS Slim 新興国株式インデックス');
                         } else if (productName === 'ufj_developedCountryStocks') {
                             $("#expectedRateOfReturn").val(11.056);
                             $("#volatility").val(19.472);
+                            $("#productName").html('eMAXIS Slim 先進国株式インデックス');
                         } else if (productName === 'ufj_allCountry') {
                             $("#expectedRateOfReturn").val(9.905);
                             $("#volatility").val(17.836);
+                            $("#productName").html('eMAXIS Slim 全世界株式');
                         } else if (productName === 'ufj_allCountryExceptJapan') {
                             $("#expectedRateOfReturn").val(10.331);
                             $("#volatility").val(18.537);
+                            $("#productName").html('eMAXIS Slim 全世界株式(除く日本)');
                         } else if (productName === 'ufj_balance') {
                             $("#expectedRateOfReturn").val(4.830);
                             $("#volatility").val(9.962);
+                            $("#productName").html('eMAXIS Slim バランス（8資産均等型）');
                         } else if (productName === 'rakuten_USA') {
                             $("#expectedRateOfReturn").val(11.905);
                             $("#volatility").val(21.448);
+                            $("#productName").html('楽天・全米株式インデックス・ファンド');
                         } else if (productName === 'sbi_globalSmallMid-capStocks') {
                             $("#expectedRateOfReturn").val(9.086);
                             $("#volatility").val(22.915);
+                            $("#productName").html('EXE-i グローバル中小型株式ファンド');
                         } else if (productName === 'capital_allCountry') {
                             $("#expectedRateOfReturn").val(12.961);
                             $("#volatility").val(18.889);
+                            $("#productName").html('キャピタル世界株式ファンド<br>（ＤＣ年金つみたて専用）');
                         } else if (productName === 'daiwa_fang') {
                             $("#expectedRateOfReturn").val(21.404);
                             $("#volatility").val(30.861);
+                            $("#productName").html('iFreeNEXT FANG+インデックス');
                         } else if (productName === 'daiwa_nasdaq100') {
                             $("#expectedRateOfReturn").val(16.320);
                             $("#volatility").val(24.880);
+                            $("#productName").html('iFreeNEXT NASDAQ100インデックス');
                         } else if (productName === 'daiwa_nydow') {
                             $("#expectedRateOfReturn").val(10.451);
                             $("#volatility").val(21.279);
+                            $("#productName").html('iFree NYダウ・インデックス');
                         } else if (productName === 'norin_oobune') {
                             $("#expectedRateOfReturn").val(9.506);
                             $("#volatility").val(18.545);
+                            $("#productName").html('農林中金＜パートナーズ＞<br>長期厳選投資 おおぶね');
                         } else {
                             $("#expectedRateOfReturn").val();
                             $("#volatility").val();
+                            $("#productName").html('');
                         }
 
                         $("#dialog").dialog("close");
