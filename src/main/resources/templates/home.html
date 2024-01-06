@@ -233,6 +233,7 @@
 
                 <div  class="chartContainer">
                     <canvas id="myLineChart"></canvas>
+                    <p>※当該評価は過去の一定期間の実績の分析結果を元に予測したものであり、 将来の運用成果等を保証したものではありません。</p>
                 </div>
             </div>
         </div>
@@ -315,7 +316,7 @@
                         if (productName === 'sbi_allCountry') {
                             $("#expectedRateOfReturn").val(9.999);
                             $("#volatility").val(19.916);
-                            $("#productName").html('ＳＢＩ・全世界株式インデックスファンド');
+                            $("#productName").html('ＳＢＩ・全世界株式<br>インデックスファンド');
                         } else if (productName === 'one_developedCountry') {
                             $("#expectedRateOfReturn").val(12.327);
                             $("#volatility").val(21.455);
@@ -335,19 +336,19 @@
                         } else if (productName === 'nissei_nikkeiAverage') {
                             $("#expectedRateOfReturn").val(9.165);
                             $("#volatility").val(22.358);
-                            $("#productName").html('＜購入・換金手数料なし＞ニッセイ日経平均<br>インデックスファンド');
+                            $("#productName").html('＜購入・換金手数料なし＞ニッセイ<br>日経平均インデックスファンド');
                         } else if (productName === 'nissei_foreignStocks') {
                             $("#expectedRateOfReturn").val(11.027);
                             $("#volatility").val(19.450);
-                            $("#productName").html('＜購入・換金手数料なし＞ニッセイ外国株式<br>インデックスファンド');
+                            $("#productName").html('＜購入・換金手数料なし＞ニッセイ<br>外国株式インデックスファンド');
                         } else if (productName === 'nissei_nikkei225') {
                             $("#expectedRateOfReturn").val(8.777);
                             $("#volatility").val(23.106);
-                            $("#productName").html('ニッセイ日経２２５インデックスファンド');
+                            $("#productName").html('ニッセイ日経２２５<br>インデックスファンド');
                         } else if (productName === 'mitsui_japaneseStocks') {
                             $("#expectedRateOfReturn").val(6.979);
                             $("#volatility").val(21.092);
-                            $("#productName").html('三井住友・ＤＣつみたてＮＩＳＡ・日本株<br>インデックスファンド');
+                            $("#productName").html('三井住友・ＤＣつみたてＮＩＳＡ・<br>日本株インデックスファンド');
                         } else if (productName === 'ufj_nikkeiAverage') {
                             $("#expectedRateOfReturn").val(9.178);
                             $("#volatility").val(22.388);
@@ -363,15 +364,15 @@
                         } else if (productName === 'ufj_emergingCountryStocks') {
                             $("#expectedRateOfReturn").val(6.146);
                             $("#volatility").val(17.163);
-                            $("#productName").html('eMAXIS Slim 新興国株式インデックス');
+                            $("#productName").html('eMAXIS Slim 新興国株式<br>インデックス');
                         } else if (productName === 'ufj_developedCountryStocks') {
                             $("#expectedRateOfReturn").val(11.056);
                             $("#volatility").val(19.472);
-                            $("#productName").html('eMAXIS Slim 先進国株式インデックス');
+                            $("#productName").html('eMAXIS Slim 先進国株式<br>インデックス');
                         } else if (productName === 'ufj_allCountry') {
                             $("#expectedRateOfReturn").val(9.905);
                             $("#volatility").val(17.836);
-                            $("#productName").html('eMAXIS Slim 全世界株式');
+                            $("#productName").html('eMAXIS Slim 全世界株式<br>(オール・カントリー)');
                         } else if (productName === 'ufj_allCountryExceptJapan') {
                             $("#expectedRateOfReturn").val(10.331);
                             $("#volatility").val(18.537);
@@ -379,15 +380,15 @@
                         } else if (productName === 'ufj_balance') {
                             $("#expectedRateOfReturn").val(4.830);
                             $("#volatility").val(9.962);
-                            $("#productName").html('eMAXIS Slim バランス（8資産均等型）');
+                            $("#productName").html('eMAXIS Slim バランス<br>（8資産均等型）');
                         } else if (productName === 'rakuten_USA') {
                             $("#expectedRateOfReturn").val(11.905);
                             $("#volatility").val(21.448);
-                            $("#productName").html('楽天・全米株式インデックス・ファンド');
+                            $("#productName").html('楽天・全米株式<br>インデックス・ファンド');
                         } else if (productName === 'sbi_globalSmallMid-capStocks') {
                             $("#expectedRateOfReturn").val(9.086);
                             $("#volatility").val(22.915);
-                            $("#productName").html('EXE-i グローバル中小型株式ファンド');
+                            $("#productName").html('EXE-i グローバル中小型株式<br>ファンド');
                         } else if (productName === 'capital_allCountry') {
                             $("#expectedRateOfReturn").val(12.961);
                             $("#volatility").val(18.889);
@@ -399,7 +400,7 @@
                         } else if (productName === 'daiwa_nasdaq100') {
                             $("#expectedRateOfReturn").val(16.320);
                             $("#volatility").val(24.880);
-                            $("#productName").html('iFreeNEXT NASDAQ100インデックス');
+                            $("#productName").html('iFreeNEXT NASDAQ100<br>インデックス');
                         } else if (productName === 'daiwa_nydow') {
                             $("#expectedRateOfReturn").val(10.451);
                             $("#volatility").val(21.279);

@@ -168,7 +168,7 @@ h1 {
     float: left;
 }
 .fontSize {
-    font-size: 0.4em;
+    font-size: 0.8em;
     margin-top: 12px;
 }
 
@@ -202,7 +202,7 @@ h1 {
     font-size: 0.9em;
 }
 .productSelection table {
-    width:90%;
+    width:95%;
     margin:0 auto;
     padding: 10px;
     border-collapse: collapse;
@@ -211,13 +211,16 @@ h1 {
     border: solid 2px #888;
 }
 .returnWidth {
-    width:100px;
+    width:90px;
 }
 .volaWidth {
-    width:120px;
+    width:110px;
 }
 .companyWidth {
     width:140px;
+}
+.recommendedLevelWidth {
+    width: 80px;
 }
 .productSelection input {
     transform: scale(1.5)
