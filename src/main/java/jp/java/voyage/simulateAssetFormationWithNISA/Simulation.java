@@ -59,48 +59,66 @@ public class Simulation {
         for (int n = 0; n < simuNum; n++) {
             List<Double> scenario = new ArrayList<>();
             double monthlySavings =  params.monthlySavings();
-            double totalReserveAmount = monthlySavings; // 積立額トータル(上限1800)
+            double totalReserveAmount = 0; // 積立額トータル(上限1800)
             scenario.add(params.initialValue() + params.monthlySavings()); // 積立1か月目
+            double limitRevival = 0; // 翌年の非課税投資枠復活分
             for (int i = 1; i < monthElement.get("monthCount"); i++) {
                 double delta = scenario.get(i - 1) * (expectedRateOfReturn / 12 + volatility * random.nextGaussian() / Math.sqrt(12) + 0); // 増分
+
+                // 非課税投資枠復活
+                if (i % 12 == 0) {
+                    totalReserveAmount -= limitRevival;
+                    limitRevival = 0;
+                }
+
+                // 積立額トータル
+                if (totalReserveAmount < 1800) {
+                    totalReserveAmount += monthlySavings;
+                }
 
                 // 年変化
                 if (params.advancedSetting().annualChangeMonth() != 0 && i % params.advancedSetting().annualChangeMonth() == 0) {
                     monthlySavings += params.advancedSetting().annualChangeMoney();
                 }
 
+                double percentageOfPrincipal = totalReserveAmount / scenario.get(i-1); // 元本の割合
                 if (i == monthElement.get("monthOfLifeEvent1")) { // イベント①発生
-                    if (totalReserveAmount <= 1800) { // 積立上限判定
+                    limitRevival += params.lifeEventParams().requiredFunds1() * percentageOfPrincipal;
+                    if (totalReserveAmount < 1800) { // 積立上限判定
                         scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds1());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds1());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent2")) {
-                    if (totalReserveAmount <= 1800) {
+                    limitRevival += params.lifeEventParams().requiredFunds2() * percentageOfPrincipal;
+                    if (totalReserveAmount < 1800) {
                         scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds2());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds2());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent3")) {
-                    if (totalReserveAmount <= 1800) {
+                    limitRevival += params.lifeEventParams().requiredFunds3() * percentageOfPrincipal;
+                    if (totalReserveAmount < 1800) {
                         scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds3());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds3());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent4")) {
-                    if (totalReserveAmount <= 1800) {
+                    limitRevival += params.lifeEventParams().requiredFunds4() * percentageOfPrincipal;
+                    if (totalReserveAmount < 1800) {
                         scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds4());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds4());
                     }
                 } else if (i == monthElement.get("monthOfLifeEvent5")) {
-                    if (totalReserveAmount <= 1800) {
+                    limitRevival += params.lifeEventParams().requiredFunds5() * percentageOfPrincipal;
+                    if (totalReserveAmount < 1800) {
                         scenario.add(scenario.get(i - 1) + delta + monthlySavings - params.lifeEventParams().requiredFunds5());
                     } else {
                         scenario.add(scenario.get(i - 1) + delta - params.lifeEventParams().requiredFunds5());
                     }
                 } else {
-                    if (totalReserveAmount <= 1800) {
+                    if (totalReserveAmount < 1800) {
                         scenario.add(scenario.get(i - 1) + delta + monthlySavings);
                     } else {
                         scenario.add(scenario.get(i - 1) + delta);
@@ -293,7 +311,6 @@ public class Simulation {
                 }
             }
         }
-        System.out.println(suggestedMax);
         return suggestedMax;
     }
 
