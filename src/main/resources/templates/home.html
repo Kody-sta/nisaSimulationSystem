@@ -34,7 +34,7 @@
                                     <div id="productName" class="left fontSize"></div>
                                     <!-- ダイアログ部分 -->
                                     <div id="dialog">
-                                        <div th:include="dialog :: productSelection_body"></div>
+                                        <div th:insert="~{dialog :: productSelection_body}"></div>
                                     </div>
                                 </th>
                             </tr>
