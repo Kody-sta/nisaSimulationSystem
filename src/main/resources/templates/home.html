@@ -28,6 +28,15 @@
                                     <input name="volatility" id="volatility" type="text" />
                                     <div th:text="${volatilityError}" class="validColor"></div>
                                 </td>
+                                <th colspan="2">
+                                    <!-- ボタン表示 -->
+                                    <button type="button" id="productSelectionButton" class="left">商品を選択</button>
+                                    <div id="productName" class="left fontSize"></div>
+                                    <!-- ダイアログ部分 -->
+                                    <div id="dialog">
+                                        <div th:include="dialog :: productSelection_body"></div>
+                                    </div>
+                                </th>
                             </tr>
                             <tr>
                                 <th><label>シミュレーション<br>開始年齢</label></th>
